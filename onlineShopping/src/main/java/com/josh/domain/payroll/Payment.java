@@ -1,83 +1,94 @@
 package com.josh.domain.payroll;
 
+import java.util.Date;
 
 public class Payment
 {
-    private String id;
-    private Boolean paid;
-    private String total;
-    private String desc;
+    private int paymentId;
+    private int orderId;
+    private Date paymentDate;
+    private double paymentAmount;
 
     private Payment() {
     }
 
     public Payment(Builder builder) {
-        this.id = builder.id;
-        this.paid = builder.paid;
-        this.total = builder.total;
-        this.desc = builder.desc;
+        this.paymentId = builder.paymentId;
+        this.orderId = builder.orderId;
+        this.paymentDate = builder.paymentDate;
+        this.paymentAmount = builder.paymentAmount;
     }
 
-    public String getId() {
-        return id;
+    public int getPaymentId()
+    {
+        return paymentId;
     }
 
 
-    public Boolean getPaid() {
-        return paid;
+    public int getOrderId()
+    {
+        return orderId;
     }
 
-    public String getTotal() {
-        return total;
+    public Date getPaymentDate() {
+        return paymentDate;
     }
 
-    public String getDesc() {
-        return desc;
+    public double getPaymentAmount() {
+        return paymentAmount;
     }
 
-    public static class Builder {
-        private String id;
-        private Boolean paid;
-        private String total;
-        private String desc;
-        public Builder id(String id) {
-            this.id = id;
-            return this;
-        }
-        public Builder paid(Boolean paid) {
-            this.paid = paid;
-            return this;
-        }
+    public static class Builder
+    {
+    private int paymentId;
+    private int orderId;
+    private Date paymentDate;
+    private double paymentAmount;
 
-        public Builder total(String total) {
-            this.total = total;
-            return this;
-        }
-
-        public Builder desc(String desc)
+        public Builder paymentId(int paymentId)
         {
-            this.desc = desc;
-            return this;
+        this.paymentId = paymentId;
+        return this;
+        }
+        public Builder orderId(int orderId)
+        {
+        this.orderId = orderId;
+        return this;
+        }
+
+        public Builder paymentDate(Date paymentDate)
+        {
+        this.paymentDate = paymentDate;
+        return this;
+        }
+
+        public Builder paymentAmount(double paymentAmount)
+        {
+        this.paymentAmount = paymentAmount;
+        return this;
         }
 
         public Builder copy(Payment payment) {
-this.id = payment.id;
-            this.paid = payment.paid;
-            this.total = payment.total;
-            this.desc = payment.desc;
-            return this;
+this.paymentId = payment.paymentId;
+        this.orderId = payment.orderId;
+        this.paymentDate = payment.paymentDate;
+        this.paymentAmount = payment.paymentAmount;
+        return this;
         }
 
-        public Payment build() {
-            return new Payment(this);
+        public Payment build()
+        {
+        return new Payment(this);
         }
 
     }
 
     @Override
-    public String toString()
-    {
-        return "Payment [desc=" + desc + ", id=" + id + ", paid=" + paid + ", total=" + total + "]";
+    public String toString() {
+        return "Payment [orderId=" + orderId + ", paymentAmount=" + paymentAmount + ", paymentDate=" + paymentDate
+                + ", paymentId=" + paymentId + "]";
     }
+
+
 
 }

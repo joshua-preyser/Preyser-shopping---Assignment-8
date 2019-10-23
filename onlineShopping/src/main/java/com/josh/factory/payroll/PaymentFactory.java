@@ -1,11 +1,13 @@
 package com.josh.factory.payroll;
 
+import java.util.Date;
+
 import com.josh.domain.payroll.Payment;
 
 public class PaymentFactory
 {
-    public static Payment buildPayment(String id, Boolean paid, String total, String desc)
+    public static Payment buildPayment(int paymentId, int orderId, Date paymentDate, double paymentAmount)
     {
-return new Payment.Builder().id(id).paid(paid).total(total).desc(desc).build();
+return new Payment.Builder().paymentId(paymentId).orderId(orderId).paymentDate(paymentDate).paymentAmount(paymentAmount).build();
     }
 }
