@@ -1,16 +1,16 @@
-package com.josh.repository.payroll.impl;
+package com.josh.service.payroll.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.payroll.Rate;
-import com.josh.repository.payroll.RateRepository;
+import com.josh.service.payroll.RateService;
 
-public class RateRepositoryImpl implements RateRepository {
-    private static RateRepositoryImpl repository = null;
+public class RateServiceImpl implements RateService {
+    private static RateServiceImpl service = null;
     private Set<Rate> r;
 
-    private RateRepositoryImpl() {
+    private RateServiceImpl() {
         this.r = new HashSet<>();
     }
 
@@ -19,10 +19,10 @@ public class RateRepositoryImpl implements RateRepository {
                 .orElse(null);
     }
 
-    public static RateRepositoryImpl getRepository() {
-        if (repository == null)
-            repository = new RateRepositoryImpl();
-        return repository;
+    public static RateServiceImpl getService() {
+        if (service == null)
+            service = new RateServiceImpl();
+        return service;
 
 }
 

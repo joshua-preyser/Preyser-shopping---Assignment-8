@@ -1,16 +1,16 @@
-package com.josh.repository.admin.impl;
+package com.josh.service.admin.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.admin.Inventory;
-import com.josh.repository.admin.InventoryRepository;
+import com.josh.service.admin.InventoryService;
 
-public class InventoryRepositoryImpl implements InventoryRepository {
-    private static InventoryRepositoryImpl repository = null;
+public class InventoryServiceImpl implements InventoryService {
+    private static InventoryServiceImpl service = null;
     private Set<Inventory> stock;
 
-    private InventoryRepositoryImpl() {
+    private InventoryServiceImpl() {
         this.stock = new HashSet<>();
     }
 
@@ -19,10 +19,10 @@ public class InventoryRepositoryImpl implements InventoryRepository {
                 .orElse(null);
     }
 
-    public static InventoryRepositoryImpl getRepository() {
-        if (repository == null)
+    public static InventoryServiceImpl getService() {
+        if (service == null)
             repository = new InventoryRepositoryImpl();
-        return repository;
+        return service;
 
 }
 
