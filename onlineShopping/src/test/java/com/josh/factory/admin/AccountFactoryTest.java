@@ -20,7 +20,7 @@ public class AccountFactoryTest
     @Test
     public void buildAccount()
     {
-        Account account = AccountFactory.buildAccount(id, address, is_closed, open, closed);
+        Account account = AccountFactory.buildAccount("01", "capetown", true, new Date(), new Date());
         Assert.assertNotNull(account.getId());
         Assert.assertNotNull(account.getAddress());
         Assert.assertNotNull(account.getIs_closed());
