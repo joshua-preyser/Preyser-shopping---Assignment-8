@@ -10,66 +10,57 @@ import com.josh.service.admin.impl.AccountServiceImpl;
 
 import org.junit.Before;
 
-public class AccountServiceImplTest
-{
-private AccountService service;
-private Account account;
-private Account getSavedAccount()
-{
-    Set<Account> savedAccount = this.service.getAll();
-    return savedAccount.iterator().next();
-}
-@Before
-public void setUp() throws Exception
-{
-    this.service = AccountServiceImpl.getService();
-    this.account = AccountFactory.buildAccount(id, address, is_closed, open, closed);
-}
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class AccountServiceImplTest {
 
-@Test
-public void a_create()
-{
-    Account createdAccount = this.service.create(this.account);
-    System.out.println("in create, createdAccount = " + createdAccount);
-    e_getAll();
-    Assert.assertSame(createdAccount, this.account);
-}
+    private AccountRepositoryImpl repository;
+    private Account account;
 
-@Test
-public void b_read()
-{
-    Account savedAccount = getSavedAccount();
-    System.out.println("readAccount, accountId = " + savedAccount.getId());
-    Account read = this.service.read(savedAccount.getId());
-    System.out.println("read = " + read);
-    Assert.assertEquals(savedAccount, read);
-e_getAll();
-}
+    private Account getSaved(){
+        return this.repository.getAll().iterator().next();
+    }
 
-@Test
-public void c_update()
-{
-    String newAddress = "new account address test";
-    Account account = new Account.Builder().copy(getSavedAccount()).address(newAddress).build();
-    System.out.println("about to update = " + account);
-    Account updatedAccount = this.service.update(account);
-    System.out.println("updated account = " + updatedAccount);
-    Assert.assertSame(newAddress, updatedAccount.getAddress());
-    e_getAll();
-}
+    @Before
+    public void setUp() throws Exception {
+        this.repository = AccountRepositoryImpl.getRepository();
+        this.account = AccountFactory.buildAccount("01", "capetown", true, new Date(), new Date());
+    }
 
-@Test
-public void d_delete()
-{
-    Account savedAccount = getSavedAccount();
-    this.service.delete(savedAccount.getId());
-        e_getAll();
-}
+    @Test
+    public void a_create() {
+        Account created = this.repository.create(this.account);
+        System.out.println("In create, created = " + created);
+        Assert.assertNotNull(created);
+        Assert.assertSame(created, this.account);
+    }
 
-@Test
-public void e_getAll()
-{
-    Set<Account> all = this.service.getAll();
-    System.out.println("all = " + all);
-}
+    @Test
+    public void c_update() {
+        String newAccount = "thisd is anew account name";
+        Account updated = new Account.Builder().copy(getSaved()).address(newAccount).build();
+        System.out.println("In update, updated = " + updated);
+        this.repository.update(updated);
+        Assert.assertSame(newAccount, updated.getAddress());
+    }
+
+    @Test
+    public void e_delete() {
+        Account saved = getSaved();
+        this.repository.delete(saved.getId());
+        d_getAll();
+    }
+
+    @Test
+    public void b_read() {
+        Account saved = getSaved();
+        Account read = this.repository.read(saved.getId());
+        System.out.println("In read, read = "+ read);
+        Assert.assertSame(read, saved);
+    }
+
+    @Test
+    public void d_getAll() {
+        Set<Account> accounts = this.repository.getAll();
+        System.out.println("In getall, all = " + accounts);
+    }
 }
