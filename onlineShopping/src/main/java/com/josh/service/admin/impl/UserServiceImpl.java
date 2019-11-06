@@ -8,56 +8,39 @@ import com.josh.service.admin.UserService;
 
 public class UserServiceImpl implements UserService {
     private static UserServiceImpl service = null;
-    private Set<User> u;
+    private UserRepository repository;
 
     private UserServiceImpl() {
-        this.u = new HashSet<>();
+        this.repository = UserRepositoryImpl.getRepository();
     }
 
-    private User findUser(String userId) {
-        return this.u.stream().filter(u -> u.getId().trim().equals(userId)).findAny()
-                .orElse(null);
-    }
-
-    public static UserServiceImpl getService() {
-        if (service == null)
-            service = new UserServiceImpl();
+    public static UserServiceImpl getService(){
+        if (service == null) service = new UserServiceImpl();
         return service;
-
-}
+    }
 
     @Override
     public User create(User user) {
-        this.u.add(user);
-        return user;
+        return this.repository.create(user);
     }
 
     @Override
     public User update(User user) {
-        User toUpdate = findUser(user.getId());
-        if (toUpdate != null) {
-            this.u.remove(toUpdate);
-            return create(user);
-        }
-        return null;
+        return this.repository.update(user);
     }
 
     @Override
-    public void delete(String userId) {
-        User user = findUser(userId);
-        if (user != null)
-            this.u.remove(user);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public User read(final String userId) {
-        User user = findUser(userId);
-        return user;
+    public User read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<User> getAll() {
-
-        return this.u;
+        return this.repository.getAll();
     }
 }

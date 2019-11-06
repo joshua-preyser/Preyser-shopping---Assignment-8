@@ -8,56 +8,39 @@ import com.josh.service.customer.CartService;
 
 public class CartServiceImpl implements CartService {
     private static CartServiceImpl service = null;
-    private Set<Cart> trolley;
+    private CartRepository repository;
 
     private CartServiceImpl() {
-        this.trolley = new HashSet<>();
+        this.repository = CartRepositoryImpl.getRepository();
     }
 
-    private Cart findCart(String cartId) {
-        return this.trolley.stream().filter(trolley -> trolley.getId().trim().equals(cartId)).findAny()
-                .orElse(null);
-    }
-
-    public static CartServiceImpl getService() {
-        if (service == null)
-            service = new CartServiceImpl();
+    public static CartServiceImpl getService(){
+        if (service == null) service = new CartServiceImpl();
         return service;
-
-}
+    }
 
     @Override
     public Cart create(Cart cart) {
-        this.trolley.add(cart);
-        return cart;
+        return this.repository.create(cart);
     }
 
     @Override
     public Cart update(Cart cart) {
-        Cart toUpdate = findCart(account.getId());
-        if (toUpdate != null) {
-            this.trolley.remove(toUpdate);
-            return create(cart);
-        }
-        return null;
+        return this.repository.update(cart);
     }
 
     @Override
-    public void delete(String cartId) {
-        Cart cart = findCart(cartId);
-        if (cart != null)
-            this.trolley.remove(cart);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Cart read(final String cartId) {
-        Cart cart = findCart(cartId);
-        return account;
+    public Cart read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Cart> getAll() {
-
-        return this.trolley;
+        return this.repository.getAll();
     }
 }

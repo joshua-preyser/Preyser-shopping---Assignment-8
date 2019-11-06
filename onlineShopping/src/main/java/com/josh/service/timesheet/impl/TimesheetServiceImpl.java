@@ -8,56 +8,39 @@ import com.josh.service.timesheet.TimesheetRepository;
 
 public class TimesheetServiceImpl implements TimesheetService {
     private static TimesheetServiceImpl service = null;
-    private Set<Timesheet> time;
+    private TimesheetRepository repository;
 
     private TimesheetServiceImpl() {
-        this.time = new HashSet<>();
+        this.repository = TimesheetRepositoryImpl.getRepository();
     }
 
-    private Timesheet findTimesheet(String who) {
-        return this.time.stream().filter(time -> time.getWho().trim().equals(who)).findAny()
-                .orElse(null);
-    }
-
-    public static TimesheetRepositoryImpl getService() {
-        if (service == null)
-            service = new TimesheetServiceImpl();
+    public static TimesheetServiceImpl getService(){
+        if (service == null) service = new TimesheetServiceImpl();
         return service;
-
-}
-
-    @Override
-    public Timesheet create(Timesheet timesheet) {
-        this.time.add(timesheet);
-        return timesheet;
     }
 
     @Override
-    public Timesheet update(Timesheet timesheet) {
-        Timesheet toUpdate = findTimesheet(timesheet.getWho());
-        if (toUpdate != null) {
-            this.time.remove(toUpdate);
-            return create(timesheet);
-        }
-        return null;
+    public Timesheet create(Timesheet sheet) {
+        return this.repository.create(sheet);
     }
 
     @Override
-    public void delete(String who) {
-        Timesheet timesheet = findTimesheet(who);
-        if (timesheet != null)
-            this.time.remove(timesheet);
+    public Timesheet update(Timesheet sheet) {
+        return this.repository.update(sheet);
     }
 
     @Override
-    public Timesheet read(final String who) {
-        Timesheet timesheet = findTimesheet(who);
-        return timesheet;
+    public void delete(String s) {
+        this.repository.delete(s);
+    }
+
+    @Override
+    public Timesheet read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Timesheet> getAll() {
-
-        return this.time;
+        return this.repository.getAll();
     }
 }

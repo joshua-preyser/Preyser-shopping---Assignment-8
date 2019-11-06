@@ -8,56 +8,39 @@ import com.josh.service.admin.AccountService;
 
 public class AccountServiceImpl implements AccountService {
     private static AccountServiceImpl service = null;
-    private Set<Account> accounts;
+    private AccountRepository repository;
 
     private AccountServiceImpl() {
-        this.accounts = new HashSet<>();
+        this.repository = AccountRepositoryImpl.getRepository();
     }
 
-    private Account findAccount(String accountId) {
-        return this.accounts.stream().filter(accounts -> accounts.getId().trim().equals(accountId)).findAny()
-                .orElse(null);
-    }
-
-    public static AccountServiceImpl getService() {
-        if (service == null)
-            service = new AccountServiceImpl();
+    public static AccountServiceImpl getService(){
+        if (service == null) service = new AccountServiceImpl();
         return service;
-
-}
+    }
 
     @Override
     public Account create(Account account) {
-        this.accounts.add(account);
-        return account;
+        return this.repository.create(account);
     }
 
     @Override
     public Account update(Account account) {
-        Account toUpdate = findAccount(account.getId());
-        if (toUpdate != null) {
-            this.accounts.remove(toUpdate);
-            return create(account);
-        }
-        return null;
+        return this.repository.update(account);
     }
 
     @Override
-    public void delete(String accountId) {
-        Account account = findAccount(accountId);
-        if (account != null)
-            this.accounts.remove(account);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Account read(final String accountId) {
-        Account account = findAccount(accountId);
-        return account;
+    public Account read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Account> getAll() {
-
-        return this.accounts;
+        return this.repository.getAll();
     }
 }

@@ -8,56 +8,39 @@ import com.josh.service.payroll.UserRateService;
 
 public class UserRateServiceImpl implements UserRateService {
     private static UserRateServiceImpl service = null;
-    private Set<UserRate> uR;
+    private UserRateRepository repository;
 
     private UserRateServiceImpl() {
-        this.uR = new HashSet<>();
+        this.repository = UserRateRepositoryImpl.getRepository();
     }
 
-    private UserRate findUserRate(String rateCode) {
-        return this.uR.stream().filter(uR -> uR.getCode().trim().equals(rateCode)).findAny()
-                .orElse(null);
-    }
-
-    public static UserRateServiceImpl getService() {
-        if (service == null)
-            service = new UserRateServiceImpl();
+    public static UserRateServiceImpl getService(){
+        if (service == null) service = new UserRateServiceImpl();
         return service;
-
-}
-
-    @Override
-    public UserRate create(UserRate userRate) {
-        this.uR.add(userRate);
-        return userRate;
     }
 
     @Override
-    public UserRate update(UserRate userRate) {
-        UserRate toUpdate = findUserRate(userRate.getCode());
-        if (toUpdate != null) {
-            this.uR.remove(toUpdate);
-            return create(userRate);
-        }
-        return null;
+    public UserRate create(UserRate rate) {
+        return this.repository.create(rate);
     }
 
     @Override
-    public void delete(String rateCode) {
-        UserRate userRate = findUserRate(rateCode);
-        if (userRate != null)
-            this.uR.remove(userRate);
+    public UserRate update(UserRate rate) {
+        return this.repository.update(rate);
     }
 
     @Override
-    public UserRate read(final String rateCode) {
-        UserRate userRate = findUserRate(rateCode);
-        return userRate;
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Set<UserRate> getAll() {
+    public Course read(String s) {
+        return this.repository.read(s);
+    }
 
-        return this.uR;
+    @Override
+    public Set<Course> getAll() {
+        return this.repository.getAll();
     }
 }

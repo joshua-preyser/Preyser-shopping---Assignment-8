@@ -12,64 +12,56 @@ import org.junit.Before;
 
 public class UserServiceImplTest
 {
-private UserService service;
-private User user;
-private User getSavedUser()
-{
-    Set<User> savedUser = this.service.getAll();
-    return savedUser.iterator().next();
-}
-@Before
-public void setUp() throws Exception
-{
-    this.service = UserServiceImpl.getService();
-    this.user = UserFactory.buildUser(userId, userRoleId, userName, userEmail, userDob, userAddress)
-}
+    public class UserServiceImplTest {
 
-@Test
-public void a_create()
-{
-    User createdUser = this.service.create(this.user);
-    System.out.println("in create, createdUser = " + createdUser);
-    e_getAll();
-    Assert.assertSame(createdUser, this.user);
-}
+        private UserRepositoryImpl repository;
+        private User user;
 
-@Test
-public void b_read()
-{
-    User savedUser = getSavedUser();
-    System.out.println("readUser, userId = " + savedUser.getId());
-    User read = this.service.read(savedUser.getId());
-    System.out.println("read = " + read);
-    Assert.assertEquals(savedUser, read);
-e_getAll();
-}
+        private User getSaved(){
+            return this.repository.getAll().iterator().next();
+        }
 
-@Test
-public void c_update()
-{
-    String newAddress = "new user address test";
-    User user = new User.Builder().copy(getSavedUser()).address(newAddress).build();
-    System.out.println("about to update = " + user);
-    User updatedUser = this.service.update(user);
-    System.out.println("updated user = " + updatedUser);
-    Assert.assertSame(newAddress, updatedUser.getAddress());
-    e_getAll();
-}
+        @Before
+        public void setUp() throws Exception {
+            this.repository = UserRepositoryImpl.getRepository();
+            this.user = UserFactory.buildUser("Application Development Practice 3");
+        }
 
-@Test
-public void d_delete()
-{
-    User savedUser = getSavedUser();
-    this.service.delete(savedUser.getId());
-        e_getAll();
-}
+        @Test
+        public void a_create() {
+            User created = this.repository.create(this.user);
+            System.out.println("In create, created = " + created);
+            Assert.assertNotNull(created);
+            Assert.assertSame(created, this.user);
+        }
 
-@Test
-public void e_getAll()
-{
-    Set<User> all = this.service.getAll();
-    System.out.println("all = " + all);
-}
-}
+        @Test
+        public void c_update() {
+            String newUserName = "Application Development Theory 3";
+            User updated = new User.Builder().copy(getSaved()).userName(newUserName).build();
+            System.out.println("In update, updated = " + updated);
+            this.repository.update(updated);
+            Assert.assertSame(newUserName, updated.getUserName());
+        }
+
+        @Test
+        public void e_delete() {
+            User saved = getSaved();
+            this.repository.delete(saved.getUserId());
+            d_getAll();
+        }
+
+        @Test
+        public void b_read() {
+            User saved = getSaved();
+            User read = this.repository.read(saved.getUserId());
+            System.out.println("In read, read = "+ read);
+            Assert.assertSame(read, saved);
+        }
+
+        @Test
+        public void d_getAll() {
+            Set<User> users = this.repository.getAll();
+            System.out.println("In getall, all = " + users);
+        }
+    }

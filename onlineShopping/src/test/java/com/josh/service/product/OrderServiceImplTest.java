@@ -2,6 +2,7 @@ package com.josh.service.product;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 import java.util.Set;
 
 import com.josh.domain.product.Order;
@@ -10,66 +11,56 @@ import com.josh.service.product.impl.OrderServiceImpl;
 
 import org.junit.Before;
 
-public class OrderServiceImplTest
-{
-private OrderRepository service;
-private Order order;
-private Order getSavedOrder()
-{
-    Set<Order> savedOrder = this.service.getAll();
-    return savedOrder.iterator().next();
-}
-@Before
-public void setUp() throws Exception
-{
-    this.service = OrderServiceImpl.getService();
-    this.order = OrderFactory.buildOrder(orderId, customerId, dateAdded)
-}
+public class OrderServiceImplTest {
 
-@Test
-public void a_create()
-{
-    Order createdOrder = this.service.create(this.order);
-    System.out.println("in create, createdOrder = " + createdOrdert);
-    e_getAll();
-    Assert.assertSame(createdOrder, this.order);
-}
+    private OrderRepositoryImpl repository;
+    private Order order;
 
-@Test
-public void b_read()
-{
-    Order savedOrder = getSavedOrder();
-    System.out.println("readOrder, orderId = " + savedOrder.getId());
-    Order read = this.service.read(savedOrder.getId());
-    System.out.println("read = " + read);
-    Assert.assertEquals(savedOrder, read);
-e_getAll();
-}
+    private Order getSaved() {
+        return this.repository.getAll().iterator().next();
+    }
 
-@Test
-public void c_update()
-{
-    String newOrderId = "new order id test";
-    Order order = new Order.Builder().copy(getSavedOrder()).orderId(newOrderId).build();
-    System.out.println("about to update = " + order);
-    Order updatedOrder = this.service.update(order);
-    System.out.println("updated order id = " + updatedOrder);
-    Assert.assertSame(newOrderId, updatedOrder.getId());
-    e_getAll();
-}
+    @Before
+    public void setUp() throws Exception {
+        this.repository = OrderRepositoryImpl.getRepository();
+        this.order = OrderFactory.buildOrder("Application Development Practice 3");
+    }
 
-@Test
-public void d_delete()
-{
-    order savedOrder = getSavedOrder();
-    this.service.delete(savedOrder.getId());
-        e_getAll();
-}
+    @Test
+    public void a_create() {
+        Order created = this.repository.create(this.order);
+        System.out.println("In create, created = " + created);
+        Assert.assertNotNull(created);
+        Assert.assertSame(created, this.order);
+    }
 
-@Test
-public void e_getAll()
-{
-    Set<Order> all = this.service.getAll();
-    System.out.println("all = " + all);
-}
+    @Test
+    public void c_update() {
+        String newOrderName = "Application Development Theory 3";
+        Order updated = new Order.Builder().copy(getSaved()).orderName(newOrderName).build();
+        System.out.println("In update, updated = " + updated);
+        this.repository.update(updated);
+        Assert.assertSame(newOrderName, updated.getOrderName());
+    }
+
+    @Test
+    public void e_delete() {
+        Order saved = getSaved();
+        this.repository.delete(saved.getOrderId());
+        d_getAll();
+    }
+
+    @Test
+    public void b_read() {
+        Order saved = getSaved();
+        Order read = this.repository.read(saved.getOrderId());
+        System.out.println("In read, read = " + read);
+        Assert.assertSame(read, saved);
+    }
+
+    @Test
+    public void d_getAll() {
+        Set<Order> orders = this.repository.getAll();
+        System.out.println("In getall, all = " + orders);
+    }
 }

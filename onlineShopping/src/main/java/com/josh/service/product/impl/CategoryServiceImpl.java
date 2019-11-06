@@ -8,56 +8,39 @@ import com.josh.service.product.CategoryService;
 
 public class CategoryServiceImpl implements CategoryService {
     private static CategoryServiceImpl service = null;
-    private Set<Category> itemGroup;
+    private CategoryRepository repository;
 
     private CategoryServiceImpl() {
-        this.itemGroup = new HashSet<>();
+        this.repository = CategoryRepositoryImpl.getRepository();
     }
 
-    private Category findCategory(String categoryId) {
-        return this.itemGroup.stream().filter(itemGroup -> itemGroup.getId().trim().equals(categoryId)).findAny()
-                .orElse(null);
-    }
-
-    public static CategoryServiceImpl getService() {
-        if (service == null)
-            service = new CategoryServiceImpl();
+    public static CategoryServiceImpl getService(){
+        if (service == null) service = new CategoryServiceImpl();
         return service;
-
-}
+    }
 
     @Override
     public Category create(Category category) {
-        this.itemGroup.add(category);
-        return category;
+        return this.repository.create(category);
     }
 
     @Override
     public Category update(Category category) {
-        Category toUpdate = findCategory(category.getId());
-        if (toUpdate != null) {
-            this.itemGroup.remove(toUpdate);
-            return create(category);
-        }
-        return null;
+        return this.repository.update(course);
     }
 
     @Override
-    public void delete(String categoryId) {
-        Category category = findCategory(categoryId);
-        if (category != null)
-            this.itemGroup.remove(category);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Category read(final String categoryId) {
-        Category category = findCategory(categoryId);
-        return category;
+    public Category read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Category> getAll() {
-
-        return this.itemGroup;
+        return this.repository.getAll();
     }
 }
