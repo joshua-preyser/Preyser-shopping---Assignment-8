@@ -13,48 +13,45 @@ public class DeliveryServiceImpl implements DeliveryService {
     private DeliveryRepository repository;
 
     private DeliveryServiceImpl() {
+<<<<<<< HEAD
         this.repository = DeliveryRepository.getRepository();
     }
 
     public static DeliveryServiceImpl getService() {
         if (service == null)
             service = new DeliveryServiceImpl();
-        return service;
+=======
+        this.repository = DeliveryRepositoryImpl.getRepository();
+    }
 
-}
+    public static DeliveryServiceImpl getService(){
+        if (service == null) service = new DeliveryServiceImpl();
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
+        return service;
+    }
 
     @Override
     public Delivery create(Delivery delivery) {
-        this.deliver.add(delivery);
-        return delivery;
+        return this.repository.create(delivery);
     }
 
     @Override
     public Delivery update(Delivery delivery) {
-        Delivery toUpdate = findDelivery(delivery.getId());
-        if (toUpdate != null) {
-            this.deliver.remove(toUpdate);
-            return create(delivery);
-        }
-        return null;
+        return this.repository.update(delivery);
     }
 
     @Override
-    public void delete(String deliveryId) {
-        Delivery delivery = findDelivery(deliveryId);
-        if (delivery != null)
-            this.deliver.remove(delivery);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Delivery read(final String deliveryId) {
-        Delivery delivery = findDelivery(deliveryId);
-        return delivery;
+    public Delivery read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Delivery> getAll() {
-
-        return this.deliver;
+        return this.repository.getAll();
     }
 }

@@ -13,48 +13,45 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository repository;
 
     private OrderServiceImpl() {
+<<<<<<< HEAD
         this.repository = OrderRepository.getRepository();
     }
 
     public static OrderServiceImpl getService() {
         if (service == null)
             service = new OrderServiceImpl();
-        return service;
+=======
+        this.repository = OrderRepositoryImpl.getRepository();
+    }
 
-}
+    public static OrderServiceImpl getService(){
+        if (service == null) service = new OrderServiceImpl();
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
+        return service;
+    }
 
     @Override
     public Order create(Order order) {
-        this.o.add(order);
-        return order;
+        return this.repository.create(order);
     }
 
     @Override
     public Order update(Order order) {
-        Order toUpdate = findOrder(order.getId());
-        if (toUpdate != null) {
-            this.o.remove(toUpdate);
-            return create(order);
-        }
-        return null;
+        return this.repository.update(order);
     }
 
     @Override
-    public void delete(String orderId) {
-        Order order = findOrder(orderId);
-        if (order != null)
-            this.o.remove(order);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Order read(final String orderId) {
-        Order order = findOrder(orderId);
-        return order;
+    public Order read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Order> getAll() {
-
-        return this.o;
+        return this.repository.getAll();
     }
 }

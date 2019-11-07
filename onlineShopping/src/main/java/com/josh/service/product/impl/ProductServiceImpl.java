@@ -13,48 +13,45 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository repository;
 
     private ProductServiceImpl() {
+<<<<<<< HEAD
         this.repository = ProductRepository.getRepository();
     }
 
     public static ProductServiceImpl getService() {
         if (service == null)
             service = new ProductServiceImpl();
-        return service;
+=======
+        this.repository = ProductRepositoryImpl.getRepository();
+    }
 
-}
+    public static ProductServiceImpl getService(){
+        if (service == null) service = new ProductServiceImpl();
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
+        return service;
+    }
 
     @Override
     public Product create(Product product) {
-        this.item.add(product);
-        return product;
+        return this.repository.create(product);
     }
 
     @Override
     public Product update(Product product) {
-        Product toUpdate = findProduct(product.getId());
-        if (toUpdate != null) {
-            this.item.remove(toUpdate);
-            return create(product);
-        }
-        return null;
+        return this.repository.update(product);
     }
 
     @Override
-    public void delete(String productId) {
-        Product product = findProduct(productId);
-        if (product != null)
-            this.item.remove(product);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Product read(final String productId) {
-        Product proeduct = findProduct(productId);
-        return product;
+    public Product read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Product> getAll() {
-
-        return this.item;
+        return this.repository.getAll();
     }
 }

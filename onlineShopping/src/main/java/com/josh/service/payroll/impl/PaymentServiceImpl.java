@@ -13,48 +13,45 @@ public class PaymentServiceImpl implements PaymentService {
     private PaymentRepository repository;
 
     private PaymentServiceImpl() {
+<<<<<<< HEAD
         this.repository = EmployeePayRepository.getRepository();
     }
 
     public static PaymentServiceImpl getService() {
         if (service == null)
             service = new PaymentServiceImpl();
-        return service;
+=======
+        this.repository = PaymentRepositoryImpl.getRepository();
+    }
 
-}
+    public static PaymentServiceImpl getService(){
+        if (service == null) service = new PaymentServiceImpl();
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
+        return service;
+    }
 
     @Override
     public Payment create(Payment payment) {
-        this.p.add(payment);
-        return payment;
+        return this.repository.create(payment);
     }
 
     @Override
-    public Payment update(EmployeePay employeePay) {
-        Payment toUpdate = findPayment(payment.getId());
-        if (toUpdate != null) {
-            this.p.remove(toUpdate);
-            return create(payment);
-        }
-        return null;
+    public Payment update(Payment payment) {
+        return this.repository.update(payment);
     }
 
     @Override
-    public void delete(String paymentId) {
-        Payment payment = findPayment(paymentId);
-        if (payment != null)
-            this.p.remove(payment);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Payment read(final String paymentId) {
-        Payment payment = findPayment(paymentId);
-        return payment;
+    public Payment read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Payment> getAll() {
-
-        return this.p;
+        return this.repository.getAll();
     }
 }

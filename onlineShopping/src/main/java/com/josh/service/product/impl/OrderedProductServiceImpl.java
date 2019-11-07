@@ -13,48 +13,45 @@ public class OrderedProductServiceImpl implements OrderedProductService {
     private OrderedProductRepository repository;
 
     private OrderedProductServiceImpl() {
+<<<<<<< HEAD
         this.repository = OrderedProductRepository.getRepository();
     }
 
     public static OrderedProductServiceImpl getService() {
         if (service == null)
             service = new OrderedProductServiceImpl();
+=======
+        this.repository = OrderedProductRepositoryImpl.getRepository();
+    }
+
+    public static OrderedProductServiceImpl getService(){
+        if (service == null) service = new OrderedProductServiceImpl();
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
         return service;
-
-}
-
-    @Override
-    public OrderedProduct create(OrderedProduct orderedProduct) {
-        this.oP.add(orderedProduct);
-        return orderedProduct;
     }
 
     @Override
-    public OrderedProduct update(OrderedProduct orderedProduct) {
-        Category toUpdate = findCategory(orderedProduct.getId());
-        if (toUpdate != null) {
-            this.oP.remove(toUpdate);
-            return create(orderedProduct);
-        }
-        return null;
+    public OrderedProduct create(OrderedProduct product) {
+        return this.repository.create(product);
     }
 
     @Override
-    public void delete(String productId) {
-        OrderedProduct orderedProduct = findOrderedProduct(productId);
-        if (orderedProduct != null)
-            this.oP.remove(orderedProduct);
+    public OrderedProduct update(OrderedProduct product) {
+        return this.repository.update(product);
     }
 
     @Override
-    public orderedProduct read(final String productId) {
-        OrderedProduct orderedProduct = findOrderedProduct(productId);
-        return orderedProduct;
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Set<Orderedproduct> getAll() {
+    public OrderedProduct read(String s) {
+        return this.repository.read(s);
+    }
 
-        return this.oP;
+    @Override
+    public Set<OrderedProduct> getAll() {
+        return this.repository.getAll();
     }
 }

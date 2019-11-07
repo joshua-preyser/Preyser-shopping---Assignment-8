@@ -13,48 +13,45 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository repository;
 
     private CategoryServiceImpl() {
+<<<<<<< HEAD
         this.repository = CategoryRepository.getRepository();
     }
 
     public static CategoryServiceImpl getService() {
         if (service == null)
             service = new CategoryServiceImpl();
-        return service;
+=======
+        this.repository = CategoryRepositoryImpl.getRepository();
+    }
 
-}
+    public static CategoryServiceImpl getService(){
+        if (service == null) service = new CategoryServiceImpl();
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
+        return service;
+    }
 
     @Override
     public Category create(Category category) {
-        this.itemGroup.add(category);
-        return category;
+        return this.repository.create(category);
     }
 
     @Override
     public Category update(Category category) {
-        Category toUpdate = findCategory(category.getId());
-        if (toUpdate != null) {
-            this.itemGroup.remove(toUpdate);
-            return create(category);
-        }
-        return null;
+        return this.repository.update(course);
     }
 
     @Override
-    public void delete(String categoryId) {
-        Category category = findCategory(categoryId);
-        if (category != null)
-            this.itemGroup.remove(category);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Category read(final String categoryId) {
-        Category category = findCategory(categoryId);
-        return category;
+    public Category read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Category> getAll() {
-
-        return this.itemGroup;
+        return this.repository.getAll();
     }
 }

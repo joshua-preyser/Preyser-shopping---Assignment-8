@@ -12,6 +12,7 @@ import org.junit.Before;
 
 public class TaskServiceImplTest
 {
+<<<<<<< HEAD
 private TaskRepository repository;
 private Task task;
 private Task getSaved()
@@ -72,4 +73,57 @@ public void e_getAll()
     Set<Task> all = this.repository.getAll();
     System.out.println("all = " + all);
 }
+=======
+
+    private TaskRepositoryImpl repository;
+    private Task task;
+
+    private Task getSaved(){
+        return this.repository.getAll().iterator().next();
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        this.repository = TaskRepositoryImpl.getRepository();
+        this.task = TaskFactory.buildTask("Application Development Practice 3");
+    }
+
+    @Test
+    public void a_create() {
+        Task created = this.repository.create(this.task);
+        System.out.println("In create, created = " + created);
+        Assert.assertNotNull(created);
+        Assert.assertSame(created, this.task);
+    }
+
+    @Test
+    public void c_update() {
+        String newTaskName = "Application Development Theory 3";
+        Task updated = new Task.Builder().copy(getSaved()).taskName(newTaskName).build();
+        System.out.println("In update, updated = " + updated);
+        this.repository.update(updated);
+        Assert.assertSame(newTaskName, updated.getTaskName());
+    }
+
+    @Test
+    public void e_delete() {
+        Task saved = getSaved();
+        this.repository.delete(saved.getTaskId());
+        d_getAll();
+    }
+
+    @Test
+    public void b_read() {
+        Task saved = getSaved();
+        Task read = this.repository.read(saved.getTaskId());
+        System.out.println("In read, read = "+ read);
+        Assert.assertSame(read, saved);
+    }
+
+    @Test
+    public void d_getAll() {
+        Set<Task> tasks = this.repository.getAll();
+        System.out.println("In getall, all = " + tasks);
+    }
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
 }

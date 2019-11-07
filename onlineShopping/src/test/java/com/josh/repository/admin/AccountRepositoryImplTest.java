@@ -14,6 +14,8 @@ public class AccountRepositoryImplTest
 {
 private AccountRepository repository;
 private Account account;
+
+
 private Account getSavedAccount()
 {
     Set<Account> savedAccount = this.repository.getAll();
@@ -23,7 +25,7 @@ private Account getSavedAccount()
 public void setUp() throws Exception
 {
     this.repository = AccountRepositoryImpl.getRepository();
-    this.account = AccountFactory.buildAccount(id, address, is_closed, open, closed);
+    this.account = AccountFactory.buildAccount("01", "capetown", true, new Date(), new Date());
 }
 
 @Test

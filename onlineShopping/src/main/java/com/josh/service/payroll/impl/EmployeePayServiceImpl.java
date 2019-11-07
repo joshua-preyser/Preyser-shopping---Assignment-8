@@ -13,49 +13,42 @@ public class EmployeePayServiceImpl implements EmployeePayService {
     private EmployeePayRepository repository;
 
     private EmployeePayServiceImpl() {
+<<<<<<< HEAD
         this.repository = EmployeePayRepository.getRepository();
     }
 
+=======
+        this.repository = EmployeePayRepositoryImpl.getRepository();
+    }
 
-    public static EmployeePayServiceImpl getService() {
-        if (service == null)
-            service = new EmployeePayServiceImpl();
-        return Service;
-
-}
+    public static EmployeePayServiceImpl getService(){
+        if (service == null) service = new EmployeePayServiceImpl();
+        return service;
+    }
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
 
     @Override
-    public EmployeePay create(EmployeePay employeePay) {
-        this.eP.add(employeePay);
-        return employeePay;
+    public EmployeePay create(EmployeePay pay) {
+        return this.repository.create(pay);
     }
 
     @Override
-    public EmployeePay update(EmployeePay employeePay) {
-        EmployeePay toUpdate = findEmployeePay(employeePay.getId());
-        if (toUpdate != null) {
-            this.eP.remove(toUpdate);
-            return create(employeePay);
-        }
-        return null;
+    public EmployeePay update(EmployeePay pay) {
+        return this.repository.update(pay);
     }
 
     @Override
-    public void delete(String employeePayId) {
-        EmployeePay employeePay = findEmployeePay(employeePayId);
-        if (employeePayt != null)
-            this.eP.remove(employeePay);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public EmployeePay read(final String employeePayId) {
-        EmployeePay employeePay = findEmployeePay(employeePayId);
-        return employeePay;
+    public EmployeePay read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<EmployeePay> getAll() {
-
-        return this.eP;
+        return this.repository.getAll();
     }
 }

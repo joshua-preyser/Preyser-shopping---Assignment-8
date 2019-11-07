@@ -13,48 +13,45 @@ public class UserRateServiceImpl implements UserRateService {
     private UserRateRepository repository;
 
     private UserRateServiceImpl() {
+<<<<<<< HEAD
         this.repository = UserRateRepository.getRepository();
     }
 
     public static UserRateServiceImpl getService() {
         if (service == null)
             service = new UserRateServiceImpl();
+=======
+        this.repository = UserRateRepositoryImpl.getRepository();
+    }
+
+    public static UserRateServiceImpl getService(){
+        if (service == null) service = new UserRateServiceImpl();
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
         return service;
-
-}
-
-    @Override
-    public UserRate create(UserRate userRate) {
-        this.uR.add(userRate);
-        return userRate;
     }
 
     @Override
-    public UserRate update(UserRate userRate) {
-        UserRate toUpdate = findUserRate(userRate.getCode());
-        if (toUpdate != null) {
-            this.uR.remove(toUpdate);
-            return create(userRate);
-        }
-        return null;
+    public UserRate create(UserRate rate) {
+        return this.repository.create(rate);
     }
 
     @Override
-    public void delete(String rateCode) {
-        UserRate userRate = findUserRate(rateCode);
-        if (userRate != null)
-            this.uR.remove(userRate);
+    public UserRate update(UserRate rate) {
+        return this.repository.update(rate);
     }
 
     @Override
-    public UserRate read(final String rateCode) {
-        UserRate userRate = findUserRate(rateCode);
-        return userRate;
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Set<UserRate> getAll() {
+    public Course read(String s) {
+        return this.repository.read(s);
+    }
 
-        return this.uR;
+    @Override
+    public Set<Course> getAll() {
+        return this.repository.getAll();
     }
 }

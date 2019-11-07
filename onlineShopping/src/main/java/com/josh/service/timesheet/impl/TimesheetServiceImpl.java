@@ -13,48 +13,45 @@ public class TimesheetServiceImpl implements TimesheetService {
     private TimesheetRepository repository;
 
     private TimesheetServiceImpl() {
+<<<<<<< HEAD
         this.repository = TimesheetRepository.getRepository();
     }
 
     public static TimesheetRepositoryImpl getService() {
         if (service == null)
             service = new TimesheetServiceImpl();
+=======
+        this.repository = TimesheetRepositoryImpl.getRepository();
+    }
+
+    public static TimesheetServiceImpl getService(){
+        if (service == null) service = new TimesheetServiceImpl();
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
         return service;
-
-}
-
-    @Override
-    public Timesheet create(Timesheet timesheet) {
-        this.time.add(timesheet);
-        return timesheet;
     }
 
     @Override
-    public Timesheet update(Timesheet timesheet) {
-        Timesheet toUpdate = findTimesheet(timesheet.getWho());
-        if (toUpdate != null) {
-            this.time.remove(toUpdate);
-            return create(timesheet);
-        }
-        return null;
+    public Timesheet create(Timesheet sheet) {
+        return this.repository.create(sheet);
     }
 
     @Override
-    public void delete(String who) {
-        Timesheet timesheet = findTimesheet(who);
-        if (timesheet != null)
-            this.time.remove(timesheet);
+    public Timesheet update(Timesheet sheet) {
+        return this.repository.update(sheet);
     }
 
     @Override
-    public Timesheet read(final String who) {
-        Timesheet timesheet = findTimesheet(who);
-        return timesheet;
+    public void delete(String s) {
+        this.repository.delete(s);
+    }
+
+    @Override
+    public Timesheet read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Timesheet> getAll() {
-
-        return this.time;
+        return this.repository.getAll();
     }
 }

@@ -10,6 +10,7 @@ import com.josh.service.timesheet.TaskService;
 
 public class TaskServiceImpl implements TaskService {
     private static TaskServiceImpl repository = null;
+<<<<<<< HEAD
     private TaskRepository repository;
 
     private TaskServiceImpl() {
@@ -19,42 +20,41 @@ public class TaskServiceImpl implements TaskService {
     public static TaskServiceImpl getService() {
         if (service == null)
             repository = new TaskServiceImpl();
-        return service;
+=======
+    private CourseRepository repository;
 
-}
+    private TaskServiceImpl() {
+        this.repository = TaskRepositoryImpl.getRepository();
+    }
+
+    public static TaskServiceImpl getService(){
+        if (service == null) service = new TaskServiceImpl();
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
+        return service;
+    }
 
     @Override
     public Task create(Task task) {
-        this.job.add(task);
-        return task;
+        return this.repository.create(task);
     }
 
     @Override
     public Task update(Task task) {
-        Task toUpdate = findTask(task.getAssignedEmployees());
-        if (toUpdate != null) {
-            this.job.remove(toUpdate);
-            return create(task);
-        }
-        return null;
+        return this.repository.update(course);
     }
 
     @Override
-    public void delete(String assignedEmployees) {
-        Task task = findTask(assignedEmployees);
-        if (task != null)
-            this.job.remove(task);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Task read(final String assignedEmployees) {
-        Task task = findTask(assignedEmployees);
-        return task;
+    public Task read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Task> getAll() {
-
-        return this.job
+        return this.repository.getAll();
     }
 }

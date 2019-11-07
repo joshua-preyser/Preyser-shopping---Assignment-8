@@ -13,48 +13,45 @@ public class ManagerServiceImpl implements ManagerService {
     private ManagerRepository repository;
 
     private ManagerServiceImpl() {
+<<<<<<< HEAD
         this.repository = ManagerRepository.getRepository();
     }
 
     public static ManagerServiceImpl getService() {
         if (service == null)
             service = new ManagerServiceImpl();
-        return service;
+=======
+        this.repository = ManagerRepositoryImpl.getRepository();
+    }
 
-}
+    public static ManagerServiceImpl getService(){
+        if (service == null) service = new ManagerServiceImpl();
+>>>>>>> 02999a039643a98048fb2d484e696524bc436634
+        return service;
+    }
 
     @Override
     public Manager create(Manager manager) {
-        this.m.add(manager);
-        return manager;
+        return this.repository.create(manager);
     }
 
     @Override
     public Manager update(Manager manager) {
-        Manager toUpdate = findManager(manager.getName());
-        if (toUpdate != null) {
-            this.m.remove(toUpdate);
-            return create(manager);
-        }
-        return null;
+        return this.repository.update(manager);
     }
 
     @Override
-    public void delete(String managerName) {
-        Manager manager = findManager(managerName);
-        if (manager != null)
-            this.m.remove(manager);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Manager read(final String managerName) {
-        Manager manager = findManager(managerName);
-        return manager;
+    public Manager read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Manager> getAll() {
-
-        return this.m;
+        return this.repository.getAll();
     }
 }
