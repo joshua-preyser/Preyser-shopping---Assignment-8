@@ -12,64 +12,54 @@ import org.junit.Before;
 
 public class RoleServiceImplTest
 {
-private RoleService service;
-private Role role;
-private Role getSavedRole()
-{
-    Set<Role> savedRole = this.service.getAll();
-    return savedRole.iterator().next();
-}
-@Before
-public void setUp() throws Exception
-{
-    this.service = RoleServiceImpl.getService();
-    this.role = RoleFactory.buildRole(roleId, roleTitle, roleDesc)
-}
+    private RoleRepositoryImpl repository;
+    private Role role;
 
-@Test
-public void a_create()
-{
-    Role createdRole = this.service.create(this.role);
-    System.out.println("in create, createdRole = " + createdRole);
-    e_getAll();
-    Assert.assertSame(createdRole, this.role);
-}
+    private Role getSaved(){
+        return this.repository.getAll().iterator().next();
+    }
 
-@Test
-public void b_read()
-{
-    Role savedRole = getSavedRole();
-    System.out.println("readRole, roleId = " + savedRole.getId());
-    Role read = this.service.read(savedRole.getId());
-    System.out.println("read = " + read);
-    Assert.assertEquals(savedRole, read);
-e_getAll();
-}
+    @Before
+    public void setUp() throws Exception {
+        this.repository = RoleRepositoryImpl.getRepository();
+        this.role = RoleFactory.buildRole("Application Development Practice 3");
+    }
 
-@Test
-public void c_update()
-{
-    String newDesc = "new role desc test";
-    Role role = new Role.Builder().copy(getSavedRole()).desc(newDesc).build();
-    System.out.println("about to update = " + role);
-    Role updatedRole = this.service.update(role);
-    System.out.println("updated role = " + updatedRole);
-    Assert.assertSame(newDesc, updatedRole.getDesc());
-    e_getAll();
-}
+    @Test
+    public void a_create() {
+        Role created = this.repository.create(this.role);
+        System.out.println("In create, created = " + created);
+        Assert.assertNotNull(created);
+        Assert.assertSame(created, this.role);
+    }
 
-@Test
-public void d_delete()
-{
-    Role savedRole = getSavedRole();
-    this.service.delete(savedRole.getId());
-        e_getAll();
-}
+    @Test
+    public void c_update() {
+        String newRoleName = "Application Development Theory 3";
+        Role updated = new Role.Builder().copy(getSaved()).roleName(newRoleName).build();
+        System.out.println("In update, updated = " + updated);
+        this.repository.update(updated);
+        Assert.assertSame(newRoleName, updated.getRoleName());
+    }
 
-@Test
-public void e_getAll()
-{
-    Set<Role> all = this.service.getAll();
-    System.out.println("all = " + all);
-}
+    @Test
+    public void e_delete() {
+        Role saved = getSaved();
+        this.repository.delete(saved.getRoleId());
+        d_getAll();
+    }
+
+    @Test
+    public void b_read() {
+        Role saved = getSaved();
+        Role read = this.repository.read(saved.getRoleId());
+        System.out.println("In read, read = "+ read);
+        Assert.assertSame(read, saved);
+    }
+
+    @Test
+    public void d_getAll() {
+        Set<Role> roles = this.repository.getAll();
+        System.out.println("In getall, all = " + roles);
+    }
 }

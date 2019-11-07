@@ -8,56 +8,39 @@ import com.josh.service.product.OrderService;
 
 public class OrderServiceImpl implements OrderService {
     private static OrderServiceImpl service = null;
-    private Set<Order> o;
+    private OrderRepository repository;
 
     private OrderServiceImpl() {
-        this.o = new HashSet<>();
+        this.repository = OrderRepositoryImpl.getRepository();
     }
 
-    private Order findOrder(String orderId) {
-        return this.o.stream().filter(o -> o.getId().trim().equals(orderId)).findAny()
-                .orElse(null);
-    }
-
-    public static OrderServiceImpl getService() {
-        if (service == null)
-            service = new OrderServiceImpl();
+    public static OrderServiceImpl getService(){
+        if (service == null) service = new OrderServiceImpl();
         return service;
-
-}
+    }
 
     @Override
     public Order create(Order order) {
-        this.o.add(order);
-        return order;
+        return this.repository.create(order);
     }
 
     @Override
     public Order update(Order order) {
-        Order toUpdate = findOrder(order.getId());
-        if (toUpdate != null) {
-            this.o.remove(toUpdate);
-            return create(order);
-        }
-        return null;
+        return this.repository.update(order);
     }
 
     @Override
-    public void delete(String orderId) {
-        Order order = findOrder(orderId);
-        if (order != null)
-            this.o.remove(order);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Order read(final String orderId) {
-        Order order = findOrder(orderId);
-        return order;
+    public Order read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Order> getAll() {
-
-        return this.o;
+        return this.repository.getAll();
     }
 }

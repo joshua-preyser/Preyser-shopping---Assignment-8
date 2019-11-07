@@ -12,64 +12,55 @@ import org.junit.Before;
 
 public class UserRateServiceImplTest
 {
-private UserRateService service;
-private UserRate userRate;
-private UserRate getSavedUserRate()
-{
-    Set<UserRate> savedUserRate = this.service.getAll();
-    return savedUserRate.iterator().next();
-}
-@Before
-public void setUp() throws Exception
-{
-    this.service = UserRateServiceImpl.getService();
-    this.userRate = UserRateFactory.buildUserRate(rateCode, userRate, rateId)
-}
 
-@Test
-public void a_create()
-{
-    UserRate createdUserRate = this.service.create(this.userRate);
-    System.out.println("in create, createdUserRate = " + createdUserRate);
-    e_getAll();
-    Assert.assertSame(createdUserRate, this.userRate);
-}
+    private UserRateRepositoryImpl repository;
+    private UserRate rate;
 
-@Test
-public void b_read()
-{
-    UserRate savedUserRate = getSavedUserRate();
-    System.out.println("readUserRate, rateCode = " + savedUserRate.getRateCode());
-    UserRate read = this.service.read(savedUserRate.getRateCode());
-    System.out.println("read = " + read);
-    Assert.assertEquals(savedUserRate, read);
-e_getAll();
-}
+    private UserRate getSaved(){
+        return this.repository.getAll().iterator().next();
+    }
 
-@Test
-public void c_update()
-{
-    String newRateCode = "new rate code test";
-    UserRate userRate = new UserRate.Builder().copy(getSavedUserRate()).rateCode(newRateCode).build();
-    System.out.println("about to update = " + userRate);
-    UserRate updatedUserRate = this.service.update(userRate);
-    System.out.println("updated user rate = " + updatedUserRate);
-    Assert.assertSame(newRateCode, updatedUserRate.getRateCode());
-    e_getAll();
-}
+    @Before
+    public void setUp() throws Exception {
+        this.repository = UserRateRepositoryImpl.getRepository();
+        this.rate = UserRateFactory.buildUserRate("Application Development Practice 3");
+    }
 
-@Test
-public void d_delete()
-{
-    UserRate savedUserRate = getSavedUserRate();
-    this.service.delete(savedUserRate.getRateCode());
-        e_getAll();
-}
+    @Test
+    public void a_create() {
+        UserRate created = this.repository.create(this.rate);
+        System.out.println("In create, created = " + created);
+        Assert.assertNotNull(created);
+        Assert.assertSame(created, this.rate);
+    }
 
-@Test
-public void e_getAll()
-{
-    Set<UserRate> all = this.service.getAll();
-    System.out.println("all = " + all);
-}
+    @Test
+    public void c_update() {
+        String newUserRateName = "Application Development Theory 3";
+        UserRate updated = new UserRate.Builder().copy(getSaved()).rateName(newUserRateName).build();
+        System.out.println("In update, updated = " + updated);
+        this.repository.update(updated);
+        Assert.assertSame(newUserRateName, updated.getUserRateName());
+    }
+
+    @Test
+    public void e_delete() {
+        UserRate saved = getSaved();
+        this.repository.delete(saved.getUserRateId());
+        d_getAll();
+    }
+
+    @Test
+    public void b_read() {
+        UserRate saved = getSaved();
+        UserRate read = this.repository.read(saved.getUserRateId());
+        System.out.println("In read, read = "+ read);
+        Assert.assertSame(read, saved);
+    }
+
+    @Test
+    public void d_getAll() {
+        Set<UserRate> rates = this.repository.getAll();
+        System.out.println("In getall, all = " + rates);
+    }
 }

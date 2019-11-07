@@ -8,56 +8,39 @@ import com.josh.service.payroll.PaymentService;
 
 public class PaymentServiceImpl implements PaymentService {
     private static PaymentServiceImpl service = null;
-    private Set<Payment> p;
+    private PaymentRepository repository;
 
     private PaymentServiceImpl() {
-        this.p = new HashSet<>();
+        this.repository = PaymentRepositoryImpl.getRepository();
     }
 
-    private Payment findPayment(String paymentId) {
-        return this.p.stream().filter(p -> p.getId().trim().equals(paymentId)).findAny()
-                .orElse(null);
-    }
-
-    public static PaymentServiceImpl getService() {
-        if (service == null)
-            service = new PaymentServiceImpl();
+    public static PaymentServiceImpl getService(){
+        if (service == null) service = new PaymentServiceImpl();
         return service;
-
-}
+    }
 
     @Override
     public Payment create(Payment payment) {
-        this.p.add(payment);
-        return payment;
+        return this.repository.create(payment);
     }
 
     @Override
-    public Payment update(EmployeePay employeePay) {
-        Payment toUpdate = findPayment(payment.getId());
-        if (toUpdate != null) {
-            this.p.remove(toUpdate);
-            return create(payment);
-        }
-        return null;
+    public Payment update(Payment payment) {
+        return this.repository.update(payment);
     }
 
     @Override
-    public void delete(String paymentId) {
-        Payment payment = findPayment(paymentId);
-        if (payment != null)
-            this.p.remove(payment);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Payment read(final String paymentId) {
-        Payment payment = findPayment(paymentId);
-        return payment;
+    public Payment read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Payment> getAll() {
-
-        return this.p;
+        return this.repository.getAll();
     }
 }

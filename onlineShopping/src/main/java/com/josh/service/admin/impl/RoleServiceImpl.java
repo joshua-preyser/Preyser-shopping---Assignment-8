@@ -8,56 +8,39 @@ import com.josh.service.admin.RoleService;
 
 public class RoleServiceImpl implements RoleService {
     private static RoleServiceImpl service = null;
-    private Set<Role> r;
+    private RoleRepository repository;
 
     private RoleServiceImpl() {
-        this.r = new HashSet<>();
+        this.repository = RoleRepositoryImpl.getRepository();
     }
 
-    private Role findRole(String roleId) {
-        return this.r.stream().filter(r -> r.getId().trim().equals(roleId)).findAny()
-                .orElse(null);
-    }
-
-    public static RoleServiceImpl getService() {
-        if (service == null)
-            service = new RoleServiceImpl();
+    public static RoleServiceImpl getService(){
+        if (service == null) service = new RoleServiceImpl();
         return service;
-
-}
+    }
 
     @Override
     public Role create(Role role) {
-        this.r.add(role);
-        return role;
+        return this.repository.create(role);
     }
 
     @Override
     public Role update(Role role) {
-        Role toUpdate = findRole(role.getId());
-        if (toUpdate != null) {
-            this.r.remove(toUpdate);
-            return create(role);
-        }
-        return null;
+        return this.repository.update(role);
     }
 
     @Override
-    public void delete(String roleId) {
-        Account account = findRole(roleId);
-        if (role != null)
-            this.r.remove(role);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Role read(final String roleId) {
-        Role role = findRole(roleId);
-        return role;
+    public Course read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Role> getAll() {
-
-        return this.r;
+        return this.repository.getAll();
     }
 }

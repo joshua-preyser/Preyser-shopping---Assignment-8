@@ -12,6 +12,13 @@ public class AccountServiceImpl implements AccountService {
     private static AccountServiceImpl service = null;
     private AccountRepository repository;
 
+
+    private AccountServiceImpl() {
+        this.repository = AccountRepositoryImpl.getRepository();
+    }
+
+    public static AccountServiceImpl getService(){
+        if (service == null) service = new AccountServiceImpl();
  
 
     private AccountServiceImpl() {
@@ -27,7 +34,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account create(Account account) {
 
+        return this.repository.create(account);
+
+
         return this.accountRepository.create(account);
+
     }
 
     @Override
@@ -37,6 +48,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+
+    public void delete(String s) {
+        this.repository.delete(s);
+    }
+
+    @Override
+    public Account read(String s) {
+        return this.repository.read(s);
+
     public void delete(String id) {
         this.repository.delete(id);
 
@@ -46,6 +66,7 @@ public class AccountServiceImpl implements AccountService {
     public Account read(String id) {
 
         return this.repository.read(id);
+
     }
 
     @Override
@@ -53,5 +74,10 @@ public class AccountServiceImpl implements AccountService {
 
         return this.repository.getAll();
     }
+
+
+        return this.repository.getAll();
+    }
+
 
 }

@@ -12,64 +12,55 @@ import org.junit.Before;
 
 public class OrderedProductServiceImplTest
 {
-private OrderedProductService service;
-private OrderedProduct orderedProduct;
-private OrderedProduct getSavedOrderedProduct()
-{
-    Set<OrderedProduct> savedOrderedProduct = this.service.getAll();
-    return savedOrderedProduct.iterator().next();
-}
-@Before
-public void setUp() throws Exception
-{
-    this.service = OrderedProductServiceImpl.getService();
-    this.orderedProduct = OrderedProductFactory.buildOrderedProduct(productId, productName, productDesc)
-}
 
-@Test
-public void a_create()
-{
-    OrderedProduct createdOrderedProduct = this.service.create(this.orderedProduct);
-    System.out.println("in create, createdOrderedProduct = " + createdOrderedProduct);
-    e_getAll();
-    Assert.assertSame(createdOrderedProduct, this.orderedProduct);
-}
+    private OrderedProductRepositoryImpl repository;
+    private OrderedProduct orderedPd;
 
-@Test
-public void b_read()
-{
-    OrderedProduct savedOrderedProduct = getSavedOrderedProduct();
-    System.out.println("readOrderedProduct, productId = " + savedOrderedProduct.getId());
-    OrderedProduct read = this.service.read(savedOrderedProduct.getId());
-    System.out.println("read = " + read);
-    Assert.assertEquals(savedOrderedProduct, read);
-e_getAll();
-}
+    private OrderedProduct getSaved(){
+        return this.repository.getAll().iterator().next();
+    }
 
-@Test
-public void c_update()
-{
-    String newProductDesc = "new product desc test";
-    OrderedProduct orderedProduct = new OrderedProduct.Builder().copy(getSavedOrderedProduct()).productDesc(newProductDesc).build();
-    System.out.println("about to update = " + orderedProduct);
-    OrderedProduct updatedOrderedProduct = this.service.update(orderedProduct);
-    System.out.println("updated product desc = " + updatedOrderedProduct);
-    Assert.assertSame(newProductDesc, updatedOrderedProduct.getId());
-    e_getAll();
-}
+    @Before
+    public void setUp() throws Exception {
+        this.repository = OrderedProductRepositoryImpl.getRepository();
+        this.orderedPd = OrderedProductFactory.buildOrderedProduct("Application Development Practice 3");
+    }
 
-@Test
-public void d_delete()
-{
-    orderedProduct savedOrderedProduct = getSavedOrderedProduct();
-    this.service.delete(savedOrderedProduct.getId());
-        e_getAll();
-}
+    @Test
+    public void a_create() {
+        OrderedProduct created = this.repository.create(this.orderedPd);
+        System.out.println("In create, created = " + created);
+        Assert.assertNotNull(created);
+        Assert.assertSame(created, this.orderedPd);
+    }
 
-@Test
-public void e_getAll()
-{
-    Set<OrderedProduct> all = this.service.getAll();
-    System.out.println("all = " + all);
-}
+    @Test
+    public void c_update() {
+        String newOrderedProductName = "Application Development Theory 3";
+        OrderedProduct updated = new OrderedProduct.Builder().copy(getSaved()).orderedPdName(newOrderedProductName).build();
+        System.out.println("In update, updated = " + updated);
+        this.repository.update(updated);
+        Assert.assertSame(newOrderedProductName, updated.getOrderedProductName());
+    }
+
+    @Test
+    public void e_delete() {
+        OrderedProduct saved = getSaved();
+        this.repository.delete(saved.getOrderedProductId());
+        d_getAll();
+    }
+
+    @Test
+    public void b_read() {
+        OrderedProduct saved = getSaved();
+        OrderedProduct read = this.repository.read(saved.getOrderedProductId());
+        System.out.println("In read, read = "+ read);
+        Assert.assertSame(read, saved);
+    }
+
+    @Test
+    public void d_getAll() {
+        Set<OrderedProduct> orderedPds = this.repository.getAll();
+        System.out.println("In getall, all = " + orderedPds);
+    }
 }

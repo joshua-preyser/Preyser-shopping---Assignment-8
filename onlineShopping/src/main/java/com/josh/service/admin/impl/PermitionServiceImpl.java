@@ -8,56 +8,39 @@ import com.josh.service.admin.PermitionService;
 
 public class PermitionServiceImpl implements PermitionService {
     private static PermitionServiceImpl service = null;
-    private Set<Permition> permit;
+    private CourseRepository repository;
 
     private PermitionServiceImpl() {
-        this.permit = new HashSet<>();
+        this.repository = PermitionRepositoryImpl.getRepository();
     }
 
-    private Permition findPermition(String permitionId) {
-        return this.permit.stream().filter(permit -> permit.getId().trim().equals(permitionId)).findAny()
-                .orElse(null);
-    }
-
-    public static PermitionServiceImpl getService() {
-        if (service == null)
-            service = new PermitionServiceImpl();
+    public static PermitionServiceImpl getService(){
+        if (service == null) service = new PermitionServiceImpl();
         return service;
-
-}
-
-    @Override
-    public Permition create(Permition permition) {
-        this.permit.add(permition);
-        return permition;
     }
 
     @Override
-    public Permition update(Permition permition) {
-        Permition toUpdate = findPermition(permition.getId());
-        if (toUpdate != null) {
-            this.permit.remove(toUpdate);
-            return create(permition);
-        }
-        return null;
+    public Permition create(Permition permit) {
+        return this.repository.create(permit);
     }
 
     @Override
-    public void delete(String permitionId) {
-        Permition permition = findPermition(permitionId);
-        if (account != null)
-            this.permit.remove(permition);
+    public Permition update(Permition permit) {
+        return this.repository.update(permit);
     }
 
     @Override
-    public Permition read(final String permitionId) {
-        Permition permition = findPermition(permitionId);
-        return permition;
+    public void delete(String s) {
+        this.repository.delete(s);
+    }
+
+    @Override
+    public Course read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Permition> getAll() {
-
-        return this.permit;
+        return this.repository.getAll();
     }
 }

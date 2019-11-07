@@ -8,56 +8,39 @@ import com.josh.service.admin.InventoryService;
 
 public class InventoryServiceImpl implements InventoryService {
     private static InventoryServiceImpl service = null;
-    private Set<Inventory> stock;
+    private InventoryRepository repository;
 
     private InventoryServiceImpl() {
-        this.stock = new HashSet<>();
+        this.repository = InventoryRepositoryImpl.getRepository();
     }
 
-    private Inventory findInventory(String inventoryId) {
-        return this.stock.stream().filter(stock -> stock.getId().trim().equals(inventoryId)).findAny()
-                .orElse(null);
-    }
-
-    public static InventoryServiceImpl getService() {
-        if (service == null)
-            repository = new InventoryRepositoryImpl();
+    public static InventoryServiceImpl getService(){
+        if (service == null) service = new InventoryServiceImpl();
         return service;
-
-}
+    }
 
     @Override
     public Inventory create(Inventory inventory) {
-        this.stock.add(inventory);
-        return inventory;
+        return this.repository.create(inventory);
     }
 
     @Override
     public Inventory update(Inventory inventory) {
-        Inventory toUpdate = findInventory(inventory.getId());
-        if (toUpdate != null) {
-            this.stock.remove(toUpdate);
-            return create(inventory);
-        }
-        return null;
+        return this.repository.update(inventory);
     }
 
     @Override
-    public void delete(String inventoryId) {
-        Inventory inventory = findAccount(accountId);
-        if (inventory != null)
-            this.stock.remove(inventory);
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Inventory read(final String inventoryId) {
-        Inventory inventory = findInventory(inventoryId);
-        return inventory;
+    public Inventory read(String s) {
+        return this.repository.read(s);
     }
 
     @Override
     public Set<Inventory> getAll() {
-
-        return this.stock;
+        return this.repository.getAll();
     }
 }

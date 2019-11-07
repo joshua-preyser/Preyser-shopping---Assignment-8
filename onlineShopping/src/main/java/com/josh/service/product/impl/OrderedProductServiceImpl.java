@@ -8,56 +8,39 @@ import com.josh.service.product.OrderedProductService;
 
 public class OrderedProductServiceImpl implements OrderedProductService {
     private static OrderedProductServiceImpl service = null;
-    private Set<OrderedProduct> oP;
+    private OrderedProductRepository repository;
 
     private OrderedProductServiceImpl() {
-        this.oP = new HashSet<>();
+        this.repository = OrderedProductRepositoryImpl.getRepository();
     }
 
-    private OrderedProduct findOrderedProduct(String productId) {
-        return this.oP.stream().filter(oP -> oP.getId().trim().equals(productId)).findAny()
-                .orElse(null);
-    }
-
-    public static OrderedProductServiceImpl getService() {
-        if (service == null)
-            service = new OrderedProductServiceImpl();
+    public static OrderedProductServiceImpl getService(){
+        if (service == null) service = new OrderedProductServiceImpl();
         return service;
-
-}
-
-    @Override
-    public OrderedProduct create(OrderedProduct orderedProduct) {
-        this.oP.add(orderedProduct);
-        return orderedProduct;
     }
 
     @Override
-    public OrderedProduct update(OrderedProduct orderedProduct) {
-        Category toUpdate = findCategory(orderedProduct.getId());
-        if (toUpdate != null) {
-            this.oP.remove(toUpdate);
-            return create(orderedProduct);
-        }
-        return null;
+    public OrderedProduct create(OrderedProduct product) {
+        return this.repository.create(product);
     }
 
     @Override
-    public void delete(String productId) {
-        OrderedProduct orderedProduct = findOrderedProduct(productId);
-        if (orderedProduct != null)
-            this.oP.remove(orderedProduct);
+    public OrderedProduct update(OrderedProduct product) {
+        return this.repository.update(product);
     }
 
     @Override
-    public orderedProduct read(final String productId) {
-        OrderedProduct orderedProduct = findOrderedProduct(productId);
-        return orderedProduct;
+    public void delete(String s) {
+        this.repository.delete(s);
     }
 
     @Override
-    public Set<Orderedproduct> getAll() {
+    public OrderedProduct read(String s) {
+        return this.repository.read(s);
+    }
 
-        return this.oP;
+    @Override
+    public Set<OrderedProduct> getAll() {
+        return this.repository.getAll();
     }
 }
