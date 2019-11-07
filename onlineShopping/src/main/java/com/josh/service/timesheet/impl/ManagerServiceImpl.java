@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.timesheet.Manager;
+import com.josh.repository.timesheet.ManagerRepository;
+import com.josh.repository.timesheet.impl.ManagerRepositoryImpl;
 import com.josh.service.timesheet.ManagerService;
 
 public class ManagerServiceImpl implements ManagerService {
     private static ManagerServiceImpl service = null;
-    private Set<Manager> m;
+    private ManagerRepository repository;
 
     private ManagerServiceImpl() {
-        this.m = new HashSet<>();
-    }
-
-    private Manager findManager(String managerName) {
-        return this.m.stream().filter(m -> m.getName().trim().equals(managerName)).findAny()
-                .orElse(null);
+        this.repository = ManagerRepository.getRepository();
     }
 
     public static ManagerServiceImpl getService() {

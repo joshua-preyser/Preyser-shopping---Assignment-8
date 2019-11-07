@@ -4,20 +4,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.admin.Permition;
+import com.josh.repository.admin.PermitionRepository;
+import com.josh.repository.admin.impl.PermitionRepositoryImpl;
 import com.josh.service.admin.PermitionService;
 
 public class PermitionServiceImpl implements PermitionService {
     private static PermitionServiceImpl service = null;
-    private Set<Permition> permit;
-
+    private PermitionRepository repository;
     private PermitionServiceImpl() {
-        this.permit = new HashSet<>();
+        this.repository = PermitionRepository.GetRepository();
     }
 
-    private Permition findPermition(String permitionId) {
-        return this.permit.stream().filter(permit -> permit.getId().trim().equals(permitionId)).findAny()
-                .orElse(null);
-    }
 
     public static PermitionServiceImpl getService() {
         if (service == null)

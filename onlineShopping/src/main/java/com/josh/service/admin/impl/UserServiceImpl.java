@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.admin.User;
+import com.josh.repository.admin.UserRepository;
+import com.josh.repository.admin.impl.UserRepositoryImpl;
 import com.josh.service.admin.UserService;
 
 public class UserServiceImpl implements UserService {
     private static UserServiceImpl service = null;
-    private Set<User> u;
+    private UserRepository repository;
 
     private UserServiceImpl() {
-        this.u = new HashSet<>();
-    }
-
-    private User findUser(String userId) {
-        return this.u.stream().filter(u -> u.getId().trim().equals(userId)).findAny()
-                .orElse(null);
+        this.repository = UserRepository.getRepository();
     }
 
     public static UserServiceImpl getService() {

@@ -1,4 +1,4 @@
-package com.josh.service.payroll;
+package com.josh.repository.payroll;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,24 +12,24 @@ import org.junit.Before;
 
 public class EmployeePayServiceImplTest
 {
-private EmployeePayService service;
+private EmployeePayRepository repository;
 private EmployeePay employeePay;
-private EmployeePay getSavedEmployeePay()
+private EmployeePay getSaved()
 {
-    Set<EmployeePay> savedEmployeePay = this.service.getAll();
+    Set<EmployeePay> savedEmployeePay = this.repository.getAll();
     return savedEmployeePay.iterator().next();
 }
 @Before
 public void setUp() throws Exception
 {
-    this.service = EmployeePayServiceImpl.getService();
+    this.repository = EmployeePayRepositoryImpl.getRepository();
     this.employeePay = EmployeePayFactory.buildEmployeePay(id, paid, total, desc)
 }
 
 @Test
 public void a_create()
 {
-    EmployeePay createdEmployeePay = this.service.create(this.employeePay);
+    EmployeePay createdEmployeePay = this.repository.create(this.employeePay);
     System.out.println("in create, createdEmployeePay = " + createdEmployeePay);
     e_getAll();
     Assert.assertSame(createdEmployeePay, this.employeePay);
@@ -40,7 +40,7 @@ public void b_read()
 {
     EmployeePay savedEmployeePay = getSavedEmployeePay();
     System.out.println("readEmployeePay, employeePayId = " + savedEmployeePay.getId());
-    EmployeePay read = this.service.read(savedEmployeePay.getId());
+    EmployeePay read = this.repository.read(savedEmployeePay.getId());
     System.out.println("read = " + read);
     Assert.assertEquals(savedEmployeePay, read);
 e_getAll();
@@ -52,7 +52,7 @@ public void c_update()
     String newDesc = "new employeePay desc test";
     EmployeePay employeePay = new EmployeePay.Builder().copy(getSavedEmployeePay()).desc(newDesc).build();
     System.out.println("about to update = " + employeePay);
-    EmployeePay updatedEmployeePay = this.service.update(employeePay);
+    EmployeePay updatedEmployeePay = this.repository.update(employeePay);
     System.out.println("updated employeePay = " + updatedEmployeePay);
     Assert.assertSame(newDesc, updatedEmployeePay.getDesc());
     e_getAll();
@@ -62,14 +62,14 @@ public void c_update()
 public void d_delete()
 {
     EmployeePay savedEmployeePay = getSavedEmployeePay();
-    this.service.delete(savedEmployeePay.getId());
+    this.repository.delete(savedEmployeePay.getId());
         e_getAll();
 }
 
 @Test
 public void e_getAll()
 {
-    Set<EmployeePay> all = this.service.getAll();
+    Set<EmployeePay> all = this.repository.getAll();
     System.out.println("all = " + all);
 }
 }

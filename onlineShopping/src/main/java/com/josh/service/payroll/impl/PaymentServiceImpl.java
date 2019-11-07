@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.payroll.Payment;
+import com.josh.repository.payroll.PaymentRepository;
+import com.josh.repository.payroll.impl.PaymentRepositoryImpl;
 import com.josh.service.payroll.PaymentService;
 
 public class PaymentServiceImpl implements PaymentService {
     private static PaymentServiceImpl service = null;
-    private Set<Payment> p;
+    private PaymentRepository repository;
 
     private PaymentServiceImpl() {
-        this.p = new HashSet<>();
-    }
-
-    private Payment findPayment(String paymentId) {
-        return this.p.stream().filter(p -> p.getId().trim().equals(paymentId)).findAny()
-                .orElse(null);
+        this.repository = EmployeePayRepository.getRepository();
     }
 
     public static PaymentServiceImpl getService() {

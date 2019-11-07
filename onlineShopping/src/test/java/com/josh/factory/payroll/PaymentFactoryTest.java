@@ -20,7 +20,7 @@ public class PaymentFactoryTest
     @Test
     public void buildPayment()
     {
-        Payment payment = PaymentFactory.buildPayment(paymentId, orderId, paymentDate, paymentAmount);
+        Payment payment = PaymentFactory.buildPayment(1., 1, new Date(), 50000.00);
         Assert.assertNotNull(payment.getPaymentId());
         Assert.assertNotNull(payment.getOrderId());
         Assert.assertNotNull(payment.getPaymentDate());

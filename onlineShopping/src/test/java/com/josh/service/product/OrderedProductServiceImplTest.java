@@ -1,4 +1,4 @@
-package com.josh.service.product;
+package com.josh.repository.product;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,26 +10,26 @@ import com.josh.service.product.impl.OrderedProductServiceImpl;
 
 import org.junit.Before;
 
-public class OrderedProductServiceImplTest
+public class OrderedProductRepositoryImplTest
 {
-private OrderedProductService service;
+private OrderedProductRepository repository;
 private OrderedProduct orderedProduct;
-private OrderedProduct getSavedOrderedProduct()
+private OrderedProduct getSaved()
 {
-    Set<OrderedProduct> savedOrderedProduct = this.service.getAll();
+    Set<OrderedProduct> savedOrderedProduct = this.repository.getAll();
     return savedOrderedProduct.iterator().next();
 }
 @Before
 public void setUp() throws Exception
 {
-    this.service = OrderedProductServiceImpl.getService();
+    this.repository = OrderedProductRepositoryImpl.getRepository();
     this.orderedProduct = OrderedProductFactory.buildOrderedProduct(productId, productName, productDesc)
 }
 
 @Test
 public void a_create()
 {
-    OrderedProduct createdOrderedProduct = this.service.create(this.orderedProduct);
+    OrderedProduct createdOrderedProduct = this.repository.create(this.orderedProduct);
     System.out.println("in create, createdOrderedProduct = " + createdOrderedProduct);
     e_getAll();
     Assert.assertSame(createdOrderedProduct, this.orderedProduct);
@@ -40,7 +40,7 @@ public void b_read()
 {
     OrderedProduct savedOrderedProduct = getSavedOrderedProduct();
     System.out.println("readOrderedProduct, productId = " + savedOrderedProduct.getId());
-    OrderedProduct read = this.service.read(savedOrderedProduct.getId());
+    OrderedProduct read = this.repository.read(savedOrderedProduct.getId());
     System.out.println("read = " + read);
     Assert.assertEquals(savedOrderedProduct, read);
 e_getAll();
@@ -52,7 +52,7 @@ public void c_update()
     String newProductDesc = "new product desc test";
     OrderedProduct orderedProduct = new OrderedProduct.Builder().copy(getSavedOrderedProduct()).productDesc(newProductDesc).build();
     System.out.println("about to update = " + orderedProduct);
-    OrderedProduct updatedOrderedProduct = this.service.update(orderedProduct);
+    OrderedProduct updatedOrderedProduct = this.repository.update(orderedProduct);
     System.out.println("updated product desc = " + updatedOrderedProduct);
     Assert.assertSame(newProductDesc, updatedOrderedProduct.getId());
     e_getAll();
@@ -62,14 +62,14 @@ public void c_update()
 public void d_delete()
 {
     orderedProduct savedOrderedProduct = getSavedOrderedProduct();
-    this.service.delete(savedOrderedProduct.getId());
+    this.repository.delete(savedOrderedProduct.getId());
         e_getAll();
 }
 
 @Test
 public void e_getAll()
 {
-    Set<OrderedProduct> all = this.service.getAll();
+    Set<OrderedProduct> all = this.repository.getAll();
     System.out.println("all = " + all);
 }
 }

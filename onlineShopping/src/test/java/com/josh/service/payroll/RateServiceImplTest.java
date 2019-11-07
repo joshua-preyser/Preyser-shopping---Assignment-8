@@ -1,4 +1,4 @@
-package com.josh.service.payroll;
+package com.josh.repository.payroll;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -6,17 +6,17 @@ import java.util.Set;
 
 import com.josh.domain.payroll.Rate;
 import com.josh.factory.payroll.RateFactory;
-import com.josh.service.payroll.impl.RateServiceImpl;
+import com.josh.service.payroll.impl.RateRepositoryImpl;
 
 import org.junit.Before;
 
 public class RateServiceImplTest
 {
-private RateService service;
+private RateRepository repository;
 private Rate rate;
-private Rate getSavedRate()
+private Rate getSaved()
 {
-    Set<Rate> savedRate = this.service.getAll();
+    Set<Rate> savedRate = this.repository.getAll();
     return savedRate.iterator().next();
 }
 @Before
@@ -29,7 +29,7 @@ public void setUp() throws Exception
 @Test
 public void a_create()
 {
-    Rate createdRate = this.service.create(this.rate);
+    Rate createdRate = this.repository.create(this.rate);
     System.out.println("in create, createdRate = " + createdRate);
     e_getAll();
     Assert.assertSame(createdRate, this.rate);
@@ -40,7 +40,7 @@ public void b_read()
 {
     Rate savedRate = getSavedRate();
     System.out.println("readRate, rateId = " + savedRate.getId());
-    Rate read = this.service.read(savedRate.getId());
+    Rate read = this.repository.read(savedRate.getId());
     System.out.println("read = " + read);
     Assert.assertEquals(savedRate, read);
 e_getAll();
@@ -52,7 +52,7 @@ public void c_update()
     String newRateDesc = "new rate desc test";
     Rate rate = new Rate.Builder().copy(getSavedRate()).rateDesc(newRateDesc).build();
     System.out.println("about to update = " + rate);
-    Rate updatedRate = this.service.update(rate);
+    Rate updatedRate = this.repository.update(rate);
     System.out.println("updated rate = " + updatedRate);
     Assert.assertSame(newRateDesc, updatedRate.getRateDesc());
     e_getAll();
@@ -62,14 +62,14 @@ public void c_update()
 public void d_delete()
 {
     Rate savedRate = getSavedRate();
-    this.service.delete(savedRate.getId());
+    this.repository.delete(savedRate.getId());
         e_getAll();
 }
 
 @Test
 public void e_getAll()
 {
-    Set<Rate> all = this.service.getAll();
+    Set<Rate> all = this.repository.getAll();
     System.out.println("all = " + all);
 }
 }

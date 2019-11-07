@@ -20,7 +20,7 @@ public class OrderedProductFactoryTest
     @Test
     public void buildOrderedProduct()
     {
-        OrderedProduct orderedProduct = OrderedProductFactory.buildOrderedProduct(productId, productName, productDesc);
+        OrderedProduct orderedProduct = OrderedProductFactory.buildOrderedProduct(1, "laptop", "computer");
         Assert.assertNotNull(orderedProduct.getProductId());
         Assert.assertNotNull(orderedProduct.getproductName());
         Assert.assertNotNull(orderedProduct.getProductDesc());

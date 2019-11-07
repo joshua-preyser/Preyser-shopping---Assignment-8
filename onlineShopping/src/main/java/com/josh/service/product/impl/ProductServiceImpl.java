@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.product.Product;
-import com.josh.service.product.ProductServicey;
+import com.josh.repository.product.ProductRepository;
+import com.josh.repository.product.impl.ProductRepositoryImpl;
+import com.josh.service.product.ProductService;
 
 public class ProductServiceImpl implements ProductService {
     private static ProductServiceImpl service = null;
-    private Set<Product> item;
+    private ProductRepository repository;
 
     private ProductServiceImpl() {
-        this.item = new HashSet<>();
-    }
-
-    private Product findProduct(String productId) {
-        return this.item.stream().filter(item -> item.getId().trim().equals(productId)).findAny()
-                .orElse(null);
+        this.repository = ProductRepository.getRepository();
     }
 
     public static ProductServiceImpl getService() {

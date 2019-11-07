@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.timesheet.Timesheet;
-import com.josh.service.timesheet.TimesheetRepository;
+import com.josh.repository.timesheet.TimesheetRepository;
+import com.josh.repository.timesheet.impl.TimesheetRepositoryImpl;
+import com.josh.service.timesheet.TimesheetService;
 
 public class TimesheetServiceImpl implements TimesheetService {
     private static TimesheetServiceImpl service = null;
-    private Set<Timesheet> time;
+    private TimesheetRepository repository;
 
     private TimesheetServiceImpl() {
-        this.time = new HashSet<>();
-    }
-
-    private Timesheet findTimesheet(String who) {
-        return this.time.stream().filter(time -> time.getWho().trim().equals(who)).findAny()
-                .orElse(null);
+        this.repository = TimesheetRepository.getRepository();
     }
 
     public static TimesheetRepositoryImpl getService() {

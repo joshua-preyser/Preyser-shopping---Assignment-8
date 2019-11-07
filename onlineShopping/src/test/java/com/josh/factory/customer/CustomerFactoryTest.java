@@ -20,7 +20,7 @@ public class CustomerFactoryTest
     @Test
     public void buildCustomer()
     {
-        Customer customer=  CustomerFactory.buildCustomer(idd, address, phone, email);
+        Customer customer=  CustomerFactory.buildCustomer("01", "29, HeerenGracht Road, Bergvliet", "0217123453", "mpreyser@mweb.co.za");
         Assert.assertNotNull(customer.getId());
         Assert.assertNotNull(customer.getAddress());
         Assert.assertNotNull(customer.getphone());

@@ -12,24 +12,24 @@ import org.junit.Before;
 
 public class UserServiceImplTest
 {
-private UserService service;
+private UserRepository repository;
 private User user;
-private User getSavedUser()
+private User getSaved()
 {
-    Set<User> savedUser = this.service.getAll();
+    Set<User> savedUser = this.repository.getAll();
     return savedUser.iterator().next();
 }
 @Before
 public void setUp() throws Exception
 {
-    this.service = UserServiceImpl.getService();
+    this.repository = UserRepositoryImpl.getRepository  ();
     this.user = UserFactory.buildUser(userId, userRoleId, userName, userEmail, userDob, userAddress)
 }
 
 @Test
 public void a_create()
 {
-    User createdUser = this.service.create(this.user);
+    User createdUser = this.repository.create(this.user);
     System.out.println("in create, createdUser = " + createdUser);
     e_getAll();
     Assert.assertSame(createdUser, this.user);
@@ -40,7 +40,7 @@ public void b_read()
 {
     User savedUser = getSavedUser();
     System.out.println("readUser, userId = " + savedUser.getId());
-    User read = this.service.read(savedUser.getId());
+    User read = this.repository.read(savedUser.getId());
     System.out.println("read = " + read);
     Assert.assertEquals(savedUser, read);
 e_getAll();
@@ -52,7 +52,7 @@ public void c_update()
     String newAddress = "new user address test";
     User user = new User.Builder().copy(getSavedUser()).address(newAddress).build();
     System.out.println("about to update = " + user);
-    User updatedUser = this.service.update(user);
+    User updatedUser = this.repository.update(user);
     System.out.println("updated user = " + updatedUser);
     Assert.assertSame(newAddress, updatedUser.getAddress());
     e_getAll();
@@ -62,14 +62,14 @@ public void c_update()
 public void d_delete()
 {
     User savedUser = getSavedUser();
-    this.service.delete(savedUser.getId());
+    this.repository.delete(savedUser.getId());
         e_getAll();
 }
 
 @Test
 public void e_getAll()
 {
-    Set<User> all = this.service.getAll();
+    Set<User> all = this.repository.getAll();
     System.out.println("all = " + all);
 }
 }

@@ -20,7 +20,7 @@ public class TimesheetFactoryTest
     @Test
     public void buildTimesheet()
     {
-        Timesheet timesheet = TimesheetFactory.buildTimesheet(who, task, hours);
+        Timesheet timesheet = TimesheetFactory.buildTimesheet(new Employee(), new Task(), 9);
         Assert.assertNotNull(timesheetgetWho());
         Assert.assertNotNull(timesheet.getTask());
         Assert.assertNotNull(timesheet.getHours());

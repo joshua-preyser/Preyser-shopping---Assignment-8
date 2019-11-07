@@ -20,7 +20,7 @@ public class DeliveryFactoryTest
     @Test
     public void buildDelivery()
     {
-        Delivery delivery = DeliveryFactory.buildDelivery(deliveryId, orderId, deliveryDate, address);
+        Delivery delivery = DeliveryFactory.buildDelivery(1, "01, new Date(), "40, Constantia Main Road, Constantia");
         Assert.assertNotNull(delivery.getDeliveryId());
         Assert.assertNotNull(delivery.getorderId());
         Assert.assertNotNull(delivery.getDeliveryDate());

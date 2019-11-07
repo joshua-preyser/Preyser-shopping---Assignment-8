@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.payroll.Rate;
+import com.josh.repository.payroll.RateRepository;
+import com.josh.repository.payroll.impl.RateRepositoryImpl;
 import com.josh.service.payroll.RateService;
 
 public class RateServiceImpl implements RateService {
     private static RateServiceImpl service = null;
-    private Set<Rate> r;
+    private RateRepository repository;
 
     private RateServiceImpl() {
-        this.r = new HashSet<>();
-    }
-
-    private Rate findRate(String rateId) {
-        return this.r.Stream().filter(r -> r.getId().trim().equals(rateId)).findAny()
-                .orElse(null);
+        this.repository = RateRepository.getRepository();
     }
 
     public static RateServiceImpl getService() {

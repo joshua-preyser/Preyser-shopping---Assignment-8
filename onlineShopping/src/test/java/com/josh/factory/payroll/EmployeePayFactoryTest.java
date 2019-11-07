@@ -20,7 +20,7 @@ public class EmployeePayFactoryTest
     @Test
     public void buildEmployeePay()
     {
-        EmployeePay employeePay = EmployeePayFactory.buildEmployeeP(id, paid, total, desc);
+        EmployeePay employeePay = EmployeePayFactory.buildEmployeeP("01", true, "10000", "salary");
         Assert.assertNotNull(employeePay.getId());
         Assert.assertNotNull(employeePay.getPaid());
         Assert.assertNotNull(employeePay.getTotal());

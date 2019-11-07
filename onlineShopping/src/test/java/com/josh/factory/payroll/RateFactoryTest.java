@@ -20,7 +20,7 @@ public class RateFactoryTest
     @Test
     public void buildRate()
     {
-        Rate rate = RateFactory.buildRate(rateId, rateTitle, rateDesc);
+        Rate rate = RateFactory.buildRate(1, "charge per hour", "hours worked");
         Assert.assertNotNull(rate.getRateId());
         Assert.assertNotNull(rate.getRateTitle());
         Assert.assertNotNull(rate.getRateDesc());

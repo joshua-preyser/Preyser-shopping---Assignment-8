@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.customer.Delivery;
+import com.josh.repository.customer.DeliveryRepository;
+import com.josh.repository.customer.impl.DeliveryRepositoryImpl;
 import com.josh.service.customer.DeliveryService;
 
 public class DeliveryServiceImpl implements DeliveryService {
     private static DeliveryServiceImpl service = null;
-    private Set<Delivery> deliver
+    private DeliveryRepository repository;
 
     private DeliveryServiceImpl() {
-        this.deliver = new HashSet<>();
-    }
-
-    private Delivery findDelivery(String deliveryId) {
-        return this.deliver.stream().filter(deliver -> deliver.getId().trim().equals(deliveryId)).findAny()
-                .orElse(null);
+        this.repository = DeliveryRepository.getRepository();
     }
 
     public static DeliveryServiceImpl getService() {

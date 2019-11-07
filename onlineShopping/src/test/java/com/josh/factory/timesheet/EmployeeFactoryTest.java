@@ -20,7 +20,7 @@ public class EmployeeFactoryTest
     @Test
     public void buildEmployee()
     {
-        Employee employee = EmployeeFactory.buildEmployee(id, name, address, role, email);
+        Employee employee = EmployeeFactory.buildEmployee(1, "Josh", "29 Heerengracht Road, Bergvliet", "manager", "preyser@gmail.com");
         Assert.assertNotNull(employee.getId());
         Assert.assertNotNull(employee.getName());
         Assert.assertNotNull(employee.getAddress());

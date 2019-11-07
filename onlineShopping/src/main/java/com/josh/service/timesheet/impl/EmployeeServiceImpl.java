@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.timesheet.Employee;
+import com.josh.repository.timesheet.EmployeeRepository;
+import com.josh.repository.timesheet.impl.EmployeeRepositoryImpl;
 import com.josh.service.timesheet.EmployeeService;
 
 public class EmployeeServiceImpl implements EmployeeService {
     private static EmployeeServiceImpl repository = null;
-    private Set<Employee> e;
+    private EmployeeRepository repository;
 
     private EmployeeServiceImpl() {
-        this.e = new HashSet<>();
-    }
-
-    private Employee findEmployee(String employeeId) {
-        return this.e.stream().filter(e -> e.getId().trim().equals(employeeId)).findAny()
-                .orElse(null);
+        this.repository = EmployeeRepository.getRepository();
     }
 
     public static EmployeeServiceImpl getService() {

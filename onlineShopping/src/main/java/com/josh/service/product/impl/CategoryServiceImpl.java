@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.product.Category;
+import com.josh.repository.product.CategoryRepository;
+import com.josh.repository.product.impl.CategoryRepositoryImpl;
 import com.josh.service.product.CategoryService;
 
 public class CategoryServiceImpl implements CategoryService {
     private static CategoryServiceImpl service = null;
-    private Set<Category> itemGroup;
+    private CategoryRepository repository;
 
     private CategoryServiceImpl() {
-        this.itemGroup = new HashSet<>();
-    }
-
-    private Category findCategory(String categoryId) {
-        return this.itemGroup.stream().filter(itemGroup -> itemGroup.getId().trim().equals(categoryId)).findAny()
-                .orElse(null);
+        this.repository = CategoryRepository.getRepository();
     }
 
     public static CategoryServiceImpl getService() {

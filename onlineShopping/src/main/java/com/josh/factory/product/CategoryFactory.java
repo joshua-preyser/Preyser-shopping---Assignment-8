@@ -1,6 +1,7 @@
 package com.josh.factory.product;
 
 import com.josh.domain.product.Category;
+import java.util.Array;
 
 public class CategoryFactory
 {

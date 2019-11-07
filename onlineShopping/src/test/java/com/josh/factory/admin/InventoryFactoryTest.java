@@ -20,7 +20,7 @@ public class InventoryFactoryTest
     @Test
     public void buildInventory()
     {
-        Inventory inventory = InventoryFactory.buildInventory(inventoryId, inventoryDesc, inventoryItem);
+        Inventory inventory = InventoryFactory.buildInventory(1, "computers", "laptop);
         Assert.assertNotNull(inventory.getInventoryId());
         Assert.assertNotNull(inventory.getInventoryDesc());
         Assert.assertNotNull(inventory.getInventoryItem());

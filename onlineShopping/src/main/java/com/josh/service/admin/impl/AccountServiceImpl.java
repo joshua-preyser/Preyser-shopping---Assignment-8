@@ -1,9 +1,10 @@
 package com.josh.service.admin.impl;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.admin.Account;
+import com.josh.repository.admin.AccountRepository;
+import com.josh.repository.admin.impl.AccountRepositoryImpl;
 import com.josh.service.admin.AccountService;
 
 
@@ -27,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account create(Account account) {
 
-        return this.accountRepository.create(account);
+        return this.repository.create(account);
     }
 
     @Override

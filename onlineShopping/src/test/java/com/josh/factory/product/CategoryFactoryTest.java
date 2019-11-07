@@ -20,7 +20,7 @@ public class CategoryFactoryTest
     @Test
     public void buildCategory()
     {
-        Category category = CategoryFactory.buildCategory(categoryId, CategoryName, categorySort);
+        Category category = CategoryFactory.buildCategory(1, "device", new Array[categorySort]);
         Assert.assertNotNull(category.getCategoryId());
         Assert.assertNotNull(category.getCategoryName());
         Assert.assertNotNull(category.getCategorySort());

@@ -1,4 +1,4 @@
-package com.josh.service.product;
+package com.josh.repository.product;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,24 +12,24 @@ import org.junit.Before;
 
 public class CategoryServiceImplTest
 {
-private CategoryService service;
+private CategoryRepository repository;
 private Category category;
-private Category getSavedCategory()
+private Category getSaved()
 {
-    Set<Category> savedCategory = this.service.getAll();
+    Set<Category> savedCategory = this.repository.getAll();
     return savedCategory.iterator().next();
 }
 @Before
 public void setUp() throws Exception
 {
-    this.service = CategoryServiceImpl.getService();
+    this.repository = CategoryRepositoryImpl.getRepository();
     this.category = CategoryFactory.buildCategory(categoryId, categoryName, categorySort)
 }
 
 @Test
 public void a_create()
 {
-    Category createdCategory = this.service.create(this.category);
+    Category createdCategory = this.repository.create(this.category);
     System.out.println("in create, createdCategory = " + createdCategory);
     e_getAll();
     Assert.assertSame(createdCategory, this.category);
@@ -40,7 +40,7 @@ public void b_read()
 {
     Category savedCategory = getSavedCategory();
     System.out.println("readCategory, categoryId = " + savedCategory.getId());
-    Category read = this.service.read(savedCategory.getId());
+    Category read = this.repository.read(savedCategory.getId());
     System.out.println("read = " + read);
     Assert.assertEquals(savedCategory, read);
 e_getAll();
@@ -52,7 +52,7 @@ public void c_update()
     String newCategoryName = "new category name test";
     Category category = new Category.Builder().copy(getSavedCategory()).categoryName(newCategoryName).build();
     System.out.println("about to update = " + category);
-    Category updatedCategory = this.service.update(category);
+    Category updatedCategory = this.repository.update(category);
     System.out.println("updated category name = " + updatedCategory);
     Assert.assertSame(newCategoryName, updatedCategory.getId());
     e_getAll();
@@ -62,14 +62,14 @@ public void c_update()
 public void d_delete()
 {
     Category savedCategory = getSavedCategory();
-    this.service.delete(savedCategory.getId());
+    this.repository.delete(savedCategory.getId());
         e_getAll();
 }
 
 @Test
 public void e_getAll()
 {
-    Set<Category> all = this.service.getAll();
+    Set<Category> all = this.repository.getAll();
     System.out.println("all = " + all);
 }
 }

@@ -4,24 +4,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.admin.Role;
+import com.josh.repository.admin.RoleRepository;
+import com.josh.repository.admin.impl.RoleRepositoryImpl;
 import com.josh.service.admin.RoleService;
 
 public class RoleServiceImpl implements RoleService {
     private static RoleServiceImpl service = null;
-    private Set<Role> r;
-
+    private RoleRepository repository;
     private RoleServiceImpl() {
-        this.r = new HashSet<>();
-    }
-
-    private Role findRole(String roleId) {
-        return this.r.stream().filter(r -> r.getId().trim().equals(roleId)).findAny()
-                .orElse(null);
+        this.repository = RoleRepository.getRepository();
     }
 
     public static RoleServiceImpl getService() {
         if (service == null)
-            service = new RoleServiceImpl();
+            repository = new RoleRepositoryImpl();
         return service;
 
 }

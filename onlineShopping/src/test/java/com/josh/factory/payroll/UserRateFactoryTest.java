@@ -20,7 +20,7 @@ public class UserRateFactoryTest
     @Test
     public void buildUserRate()
     {
-        UserRate userRate = UserRateFactory.buildUserRate(rateCode, userRate, rateId);
+        UserRate userRate = UserRateFactory.buildUserRate(1, 1, 1);
         Assert.assertNotNull(userRate.getRateCode());
         Assert.assertNotNull(userRate.getUserRate());
         Assert.assertNotNull(userRate.getRateId());

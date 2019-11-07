@@ -20,7 +20,7 @@ public class ProductFactoryTest
     @Test
     public void buildProduct()
     {
-        Product product = ProductFactory.buildProduct(id, name, supplier);
+        Product product = ProductFactory.buildProduct("01", "laptop", "Linovo);
         Assert.assertNotNull(product.getId());
         Assert.assertNotNull(product.getName());
         Assert.assertNotNull(product.getSupplier());

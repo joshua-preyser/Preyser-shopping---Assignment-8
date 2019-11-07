@@ -4,21 +4,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.admin.Inventory;
+import com.josh.repository.admin.InventoryRepository;
+import com.josh.repository.admin.impl.InventoryRepositoryImpl;
 import com.josh.service.admin.InventoryService;
 
 public class InventoryServiceImpl implements InventoryService {
     private static InventoryServiceImpl service = null;
-    private Set<Inventory> stock;
-
+    private InventoryRepository repository;
     private InventoryServiceImpl() {
-        this.stock = new HashSet<>();
+        this.repository = InventoryRepositoryImpl.getRepository();
     }
 
-    private Inventory findInventory(String inventoryId) {
-        return this.stock.stream().filter(stock -> stock.getId().trim().equals(inventoryId)).findAny()
-                .orElse(null);
-    }
-
+    
     public static InventoryServiceImpl getService() {
         if (service == null)
             repository = new InventoryRepositoryImpl();

@@ -20,7 +20,7 @@ public class ManagerFactoryTest
     @Test
     public void buildManager()
     {
-        Manager manager = ManagerFactory.buildManager(name);
+        Manager manager = ManagerFactory.buildManager("Josh");
         Assert.assertNotNull(manager.getName());
         Assert.assertNotNull(manager);
     }

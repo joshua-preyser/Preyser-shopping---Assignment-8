@@ -12,24 +12,24 @@ import org.junit.Before;
 
 public class RoleServiceImplTest
 {
-private RoleService service;
+private RoleRepository repository;
 private Role role;
-private Role getSavedRole()
+private Role getSaved()
 {
-    Set<Role> savedRole = this.service.getAll();
+    Set<Role> savedRole = this.repository.getAll();
     return savedRole.iterator().next();
 }
 @Before
 public void setUp() throws Exception
 {
-    this.service = RoleServiceImpl.getService();
+    this.repository = RoleRepositoryImpl.getRepository();
     this.role = RoleFactory.buildRole(roleId, roleTitle, roleDesc)
 }
 
 @Test
 public void a_create()
 {
-    Role createdRole = this.service.create(this.role);
+    Role createdRole = this.repository.create(this.role);
     System.out.println("in create, createdRole = " + createdRole);
     e_getAll();
     Assert.assertSame(createdRole, this.role);
@@ -40,7 +40,7 @@ public void b_read()
 {
     Role savedRole = getSavedRole();
     System.out.println("readRole, roleId = " + savedRole.getId());
-    Role read = this.service.read(savedRole.getId());
+    Role read = this.repository.read(savedRole.getId());
     System.out.println("read = " + read);
     Assert.assertEquals(savedRole, read);
 e_getAll();
@@ -52,7 +52,7 @@ public void c_update()
     String newDesc = "new role desc test";
     Role role = new Role.Builder().copy(getSavedRole()).desc(newDesc).build();
     System.out.println("about to update = " + role);
-    Role updatedRole = this.service.update(role);
+    Role updatedRole = this.repository.update(role);
     System.out.println("updated role = " + updatedRole);
     Assert.assertSame(newDesc, updatedRole.getDesc());
     e_getAll();
@@ -62,14 +62,14 @@ public void c_update()
 public void d_delete()
 {
     Role savedRole = getSavedRole();
-    this.service.delete(savedRole.getId());
+    this.repository.delete(savedRole.getId());
         e_getAll();
 }
 
 @Test
 public void e_getAll()
 {
-    Set<Role> all = this.service.getAll();
+    Set<Role> all = this.repository.getAll();
     System.out.println("all = " + all);
 }
 }

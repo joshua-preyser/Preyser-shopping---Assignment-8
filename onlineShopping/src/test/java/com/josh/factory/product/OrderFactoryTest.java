@@ -20,7 +20,7 @@ public class OrderFactoryTest
     @Test
     public void buildOrder()
     {
-        Order order = OrderFactory.buildOrder(orderId, customerId, dateAdded);
+        Order order = OrderFactory.buildOrder(1, 1, new Date());
         Assert.assertNotNull(order.getOrderId());
         Assert.assertNotNull(order.getCustomerId());
         Assert.assertNotNull(order.getDateAdded());

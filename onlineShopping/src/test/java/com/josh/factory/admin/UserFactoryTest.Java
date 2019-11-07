@@ -20,7 +20,7 @@ public class UserFactoryTest
     @Test
     public void buildUser()
     {
-        User user = UserFactory.buildUser(userId, userRoleId, userName, userEmail, userDob, userAddress);
+        User user = UserFactory.buildUser(1, 1, "Josh", "preyser@gmail.com, 94-03-18, "29, Heerengracht Road, Bergvliet");
         Assert.assertNotNull(user.getUserId());
         Assert.assertNotNull(user.getUserRoleId());
         Assert.assertNotNull(user.getUserName());

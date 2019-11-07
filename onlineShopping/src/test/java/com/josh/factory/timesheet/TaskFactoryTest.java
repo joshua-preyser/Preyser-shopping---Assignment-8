@@ -20,7 +20,7 @@ public class TaskFactoryTest
     @Test
     public void buildTask()
     {
-        Task task = TaskFactory.buildTask(assignedEmployees, manager, completed, description);
+        Task task = TaskFactory.buildTask(new ArrayList<assignedEmployees>, Manager.getName(), true, "administration"");
         Assert.assertNotNull(task.getAssignedEmployees());
         Assert.assertNotNull(task.getManager());
         Assert.assertNotNull(task.getCompleted());

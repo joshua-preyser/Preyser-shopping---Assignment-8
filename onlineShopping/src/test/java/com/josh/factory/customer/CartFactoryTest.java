@@ -21,7 +21,7 @@ public class CartFactoryTest
     @Test
     public void buildCart()
     {
-        Cart cart = CartFactory.buildCart(cartId, productId, dateAdded);
+        Cart cart = CartFactory.buildCart(1, 1, 1);
         Assert.assertNotNull(cart.getCartId());
         Assert.assertNotNull(cart.getProductId());
         Assert.assertNotNull(cart.getDateAdded());

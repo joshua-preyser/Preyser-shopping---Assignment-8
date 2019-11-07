@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.timesheet.Task;
+import com.josh.repository.timesheet.TaskRepository;
+import com.josh.repository.timesheet.impl.TaskRepositoryImpl;
 import com.josh.service.timesheet.TaskService;
 
 public class TaskServiceImpl implements TaskService {
     private static TaskServiceImpl repository = null;
-    private Set<Task> job;
+    private TaskRepository repository;
 
     private TaskServiceImpl() {
-        this.job = new HashSet<>();
-    }
-
-    private Task findTask(String assignedEmployees) {
-        return this.job.stream().filter(job -> job.getAssignedEmployees().trim().equals(assignedEmployees)).findAny()
-                .orElse(null);
+        this.repository = TaskRepository.getRepository();
     }
 
     public static TaskServiceImpl getService() {

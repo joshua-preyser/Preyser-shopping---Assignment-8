@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.customer.Customer;
+import com.josh.repository.customer.CustomerRepository;
+import com.josh.repository.customer.impl.CustomerRepositoryImpl;
 import com.josh.service.customer.CustomerService;
 
 public class CustomerServiceImpl implements CustomerService {
     private static CustomerServiceImpl service = null;
-    private Set<Customer> c;
+    private CustomerRepository repository;
 
     private CustomerServiceImpl() {
-        this.c = new HashSet<>();
-    }
-
-    private Customer findCustomer(String customerId) {
-        return this.c.stream().filter(c -> c.getId().trim().equals(customerId)).findAny()
-                .orElse(null);
+        this.repository = CustomerRepository.getRepository();
     }
 
     public static CustomerServiceImpl getService() {

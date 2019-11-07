@@ -4,19 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.josh.domain.customer.Cart;
+import com.josh.repository.customer.CartRepository;
+import com.josh.repository.customer.impl.CartRepositoryImpl;
 import com.josh.service.customer.CartService;
 
 public class CartServiceImpl implements CartService {
     private static CartServiceImpl service = null;
-    private Set<Cart> trolley;
+    private CartRepository repository;
 
     private CartServiceImpl() {
-        this.trolley = new HashSet<>();
-    }
-
-    private Cart findCart(String cartId) {
-        return this.trolley.stream().filter(trolley -> trolley.getId().trim().equals(cartId)).findAny()
-                .orElse(null);
+        this.repository = CartRepository.getRepository();
     }
 
     public static CartServiceImpl getService() {

@@ -20,7 +20,7 @@ public class PermitionFactoryTest
     @Test
     public void buildPermition()
     {
-        Permition permition = PermitionFactory.buildPermition(permId, permRoleId, permTitle, permDesc);
+        Permition permition = PermitionFactory.buildPermition(1, 1, "admin", "administrator");
         Assert.assertNotNull(permition.getPermId());
         Assert.assertNotNull(permition.getPermRoleId());
         Assert.assertNotNull(permition.getPermtitle());
