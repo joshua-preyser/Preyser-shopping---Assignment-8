@@ -7,6 +7,7 @@ import java.util.Set;
 import com.josh.domain.admin.Inventory;
 
 public interface InventoryService extends IService<Inventory, String>
+
 {
 Set<Inventory> getAll();
 }
